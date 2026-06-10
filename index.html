@@ -8,600 +8,288 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
-  /* ── RESET & BASE ── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg:        #0a0b0f;
-    --bg2:       #111318;
-    --bg3:       #181b23;
-    --surface:   #1e2130;
-    --surface2:  #252a3a;
-    --border:    rgba(255,255,255,0.07);
-    --border2:   rgba(255,255,255,0.12);
-    --accent:    #7c6cfc;
-    --accent2:   #a78bfa;
-    --accent3:   #c4b5fd;
-    --cyan:      #22d3ee;
-    --green:     #4ade80;
-    --amber:     #fbbf24;
-    --pink:      #f472b6;
-    --red:       #f87171;
-    --text:      #e2e8f0;
-    --text2:     #94a3b8;
-    --text3:     #4a5568;
-    --radius:    12px;
-    --radius-sm: 8px;
-    --radius-xs: 6px;
-    --sidebar-w: 240px;
-    --navbar-h:  60px;
-    --font:      'Space Grotesk', sans-serif;
-    --mono:      'Space Mono', monospace;
-    --trans:     all 0.2s cubic-bezier(0.4,0,0.2,1);
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0b0f;--bg2:#111318;--bg3:#181b23;
+  --surface:#1e2130;--surface2:#252a3a;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --accent:#7c6cfc;--accent2:#a78bfa;--accent3:#c4b5fd;
+  --cyan:#22d3ee;--green:#4ade80;--amber:#fbbf24;--pink:#f472b6;--red:#f87171;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#4a5568;
+  --radius:12px;--radius-sm:8px;--radius-xs:6px;
+  --sidebar-w:240px;--navbar-h:60px;
+  --font:'Space Grotesk',sans-serif;--mono:'Space Mono',monospace;
+  --trans:all 0.2s cubic-bezier(0.4,0,0.2,1)
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:4px}
 
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg2); }
-  ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 4px; }
+/* NAVBAR */
+#navbar{position:fixed;top:0;left:0;right:0;height:var(--navbar-h);background:rgba(10,11,15,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px 0 calc(var(--sidebar-w) + 20px);z-index:100;gap:12px}
+.navbar-brand{display:flex;align-items:center;gap:10px;position:absolute;left:20px;text-decoration:none}
+.navbar-logo{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--cyan));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.navbar-name{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-0.3px}
+.navbar-sub{font-size:11px;color:var(--text2)}
+.navbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+#live-clock{font-family:var(--mono);font-size:12px;color:var(--cyan);background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);padding:5px 12px;border-radius:20px;letter-spacing:1px;white-space:nowrap}
+.nav-badge{width:32px;height:32px;background:var(--surface);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--trans);position:relative;font-size:14px}
+.nav-badge:hover{background:var(--surface2);border-color:var(--border2)}
+.nav-badge .dot{position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--accent);border-radius:50%;border:1.5px solid var(--bg)}
+.avatar{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--pink));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;border:2px solid transparent;transition:var(--trans)}
+.avatar:hover{border-color:var(--accent)}
 
-  /* ── NAVBAR ── */
-  #navbar {
-    position: fixed; top: 0; left: 0; right: 0;
-    height: var(--navbar-h);
-    background: rgba(10,11,15,0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center;
-    padding: 0 20px 0 calc(var(--sidebar-w) + 20px);
-    z-index: 100;
-    gap: 12px;
-  }
-  .navbar-brand {
-    display: flex; align-items: center; gap: 10px;
-    position: absolute; left: 20px;
-    text-decoration: none;
-  }
-  .navbar-logo {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--accent), var(--cyan));
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--mono); font-weight: 700; font-size: 13px;
-    color: #fff; flex-shrink: 0;
-  }
-  .navbar-name {
-    font-size: 15px; font-weight: 600; color: var(--text);
-    letter-spacing: -0.3px;
-  }
-  .navbar-sub {
-    font-size: 11px; color: var(--text2); font-weight: 400;
-  }
-  .navbar-right {
-    margin-left: auto;
-    display: flex; align-items: center; gap: 8px;
-  }
-  #live-clock {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--cyan);
-    background: rgba(34,211,238,0.08);
-    border: 1px solid rgba(34,211,238,0.2);
-    padding: 5px 12px;
-    border-radius: 20px;
-    letter-spacing: 1px;
-    white-space: nowrap;
-  }
-  .nav-badge {
-    width: 32px; height: 32px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: var(--trans); position: relative;
-    font-size: 14px;
-  }
-  .nav-badge:hover { background: var(--surface2); border-color: var(--border2); }
-  .nav-badge .dot {
-    position: absolute; top: 5px; right: 5px;
-    width: 7px; height: 7px;
-    background: var(--accent); border-radius: 50%;
-    border: 1.5px solid var(--bg);
-  }
-  .avatar {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--accent), var(--pink));
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; color: #fff;
-    cursor: pointer; border: 2px solid transparent;
-    transition: var(--trans);
-  }
-  .avatar:hover { border-color: var(--accent); }
+/* SIDEBAR */
+#sidebar{position:fixed;top:var(--navbar-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;overflow-x:hidden;padding:16px 12px;z-index:90;display:flex;flex-direction:column;gap:4px}
+.sidebar-section-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;padding:10px 8px 6px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:var(--trans);color:var(--text2);font-size:13.5px;font-weight:400;position:relative;text-decoration:none;border:1px solid transparent;user-select:none}
+.sidebar-item:hover{background:var(--surface);color:var(--text);border-color:var(--border)}
+.sidebar-item.active{background:rgba(124,108,252,0.12);color:var(--accent3);border-color:rgba(124,108,252,0.25);font-weight:500}
+.sidebar-item.active .si-icon{color:var(--accent)}
+.si-icon{font-size:16px;flex-shrink:0;width:20px;text-align:center}
+.si-arrow{margin-left:auto;font-size:11px;transition:transform 0.2s;color:var(--text3)}
+.sidebar-item.open .si-arrow{transform:rotate(90deg)}
+.sub-menu{display:none;flex-direction:column;gap:2px;padding-left:32px;padding-right:4px}
+.sub-menu.open{display:flex}
+.sub-item{padding:7px 10px;border-radius:var(--radius-xs);cursor:pointer;transition:var(--trans);color:var(--text2);font-size:12.5px;border:1px solid transparent}
+.sub-item:hover{background:var(--surface);color:var(--text)}
+.sub-item.active{background:rgba(124,108,252,0.1);color:var(--accent3);border-color:rgba(124,108,252,0.2)}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 4px}
 
-  /* ── SIDEBAR ── */
-  #sidebar {
-    position: fixed; top: var(--navbar-h); left: 0; bottom: 0;
-    width: var(--sidebar-w);
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    overflow-y: auto; overflow-x: hidden;
-    padding: 16px 12px;
-    z-index: 90;
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .sidebar-section-label {
-    font-size: 10px; font-weight: 600;
-    color: var(--text3);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 10px 8px 6px;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 9px 12px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: var(--trans);
-    color: var(--text2);
-    font-size: 13.5px; font-weight: 400;
-    position: relative;
-    text-decoration: none;
-    border: 1px solid transparent;
-    user-select: none;
-  }
-  .sidebar-item:hover {
-    background: var(--surface);
-    color: var(--text);
-    border-color: var(--border);
-  }
-  .sidebar-item.active {
-    background: rgba(124,108,252,0.12);
-    color: var(--accent3);
-    border-color: rgba(124,108,252,0.25);
-    font-weight: 500;
-  }
-  .sidebar-item.active .si-icon { color: var(--accent); }
-  .si-icon { font-size: 16px; flex-shrink: 0; width: 20px; text-align: center; }
-  .si-arrow {
-    margin-left: auto; font-size: 11px;
-    transition: transform 0.2s;
-    color: var(--text3);
-  }
-  .sidebar-item.open .si-arrow { transform: rotate(90deg); }
-  .sub-menu {
-    display: none; flex-direction: column; gap: 2px;
-    padding-left: 32px; padding-right: 4px;
-  }
-  .sub-menu.open { display: flex; }
-  .sub-item {
-    padding: 7px 10px;
-    border-radius: var(--radius-xs);
-    cursor: pointer; transition: var(--trans);
-    color: var(--text2); font-size: 12.5px;
-    border: 1px solid transparent;
-  }
-  .sub-item:hover { background: var(--surface); color: var(--text); }
-  .sub-item.active {
-    background: rgba(124,108,252,0.1);
-    color: var(--accent3);
-    border-color: rgba(124,108,252,0.2);
-  }
-  .sidebar-divider {
-    height: 1px; background: var(--border);
-    margin: 8px 4px;
-  }
+/* MAIN */
+#main{margin-left:var(--sidebar-w);margin-top:var(--navbar-h);min-height:calc(100vh - var(--navbar-h));padding:28px}
+.page{display:none}
+.page.active{display:block;animation:fadeIn 0.25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.page-header{margin-bottom:24px}
+.page-header h1{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.5px}
+.page-header p{font-size:13.5px;color:var(--text2);margin-top:4px}
 
-  /* ── MAIN CONTENT ── */
-  #main {
-    margin-left: var(--sidebar-w);
-    margin-top: var(--navbar-h);
-    min-height: calc(100vh - var(--navbar-h));
-    padding: 28px;
-  }
-  .page { display: none; }
-  .page.active { display: block; animation: fadeIn 0.25s ease; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;transition:var(--trans)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:var(--radius) var(--radius) 0 0}
+.stat-card.c-purple::before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.stat-card.c-cyan::before{background:linear-gradient(90deg,var(--cyan),#67e8f9)}
+.stat-card.c-green::before{background:linear-gradient(90deg,var(--green),#86efac)}
+.stat-card.c-amber::before{background:linear-gradient(90deg,var(--amber),#fde68a)}
+.stat-card.c-pink::before{background:linear-gradient(90deg,var(--pink),#fbcfe8)}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.stat-label{font-size:11px;color:var(--text2);letter-spacing:0.5px;font-weight:500;text-transform:uppercase}
+.stat-value{font-size:28px;font-weight:700;font-family:var(--mono);letter-spacing:-1px}
+.stat-card.c-purple .stat-value{color:var(--accent2)}
+.stat-card.c-cyan .stat-value{color:var(--cyan)}
+.stat-card.c-green .stat-value{color:var(--green)}
+.stat-card.c-amber .stat-value{color:var(--amber)}
+.stat-card.c-pink .stat-value{color:var(--pink)}
+.stat-sub{font-size:11.5px;color:var(--text2)}
+.stat-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:32px;opacity:0.08}
 
-  /* ── PAGE HEADER ── */
-  .page-header { margin-bottom: 24px; }
-  .page-header h1 {
-    font-size: 22px; font-weight: 700;
-    color: var(--text); letter-spacing: -0.5px;
-  }
-  .page-header p { font-size: 13.5px; color: var(--text2); margin-top: 4px; }
+/* DASHBOARD DATE */
+.dash-date-card{background:linear-gradient(135deg,rgba(124,108,252,0.15),rgba(34,211,238,0.08));border:1px solid rgba(124,108,252,0.3);border-radius:var(--radius);padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
+.dash-date-card::after{content:'';position:absolute;right:-40px;top:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(124,108,252,0.15) 0%,transparent 70%);pointer-events:none}
+.ddc-left h2{font-size:28px;font-weight:700;font-family:var(--mono);color:var(--text);letter-spacing:-1px}
+.ddc-left p{font-size:13px;color:var(--text2);margin-top:3px}
+.ddc-right{text-align:right}
+.ddc-right .big-time{font-family:var(--mono);font-size:36px;font-weight:700;color:var(--accent2);letter-spacing:-1px}
+.ddc-right .greeting{font-size:12px;color:var(--text2);margin-top:2px}
 
-  /* ── STAT CARDS ── */
-  .stat-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .stat-card {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    display: flex; flex-direction: column; gap: 6px;
-    position: relative; overflow: hidden;
-    transition: var(--trans);
-  }
-  .stat-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 2px;
-    border-radius: var(--radius) var(--radius) 0 0;
-  }
-  .stat-card.c-purple::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
-  .stat-card.c-cyan::before   { background: linear-gradient(90deg, var(--cyan), #67e8f9); }
-  .stat-card.c-green::before  { background: linear-gradient(90deg, var(--green), #86efac); }
-  .stat-card.c-amber::before  { background: linear-gradient(90deg, var(--amber), #fde68a); }
-  .stat-card.c-pink::before   { background: linear-gradient(90deg, var(--pink), #fbcfe8); }
-  .stat-card:hover { border-color: var(--border2); transform: translateY(-2px); }
-  .stat-label { font-size: 11px; color: var(--text2); letter-spacing: 0.5px; font-weight: 500; text-transform: uppercase; }
-  .stat-value { font-size: 28px; font-weight: 700; font-family: var(--mono); letter-spacing: -1px; }
-  .stat-card.c-purple .stat-value { color: var(--accent2); }
-  .stat-card.c-cyan   .stat-value { color: var(--cyan); }
-  .stat-card.c-green  .stat-value { color: var(--green); }
-  .stat-card.c-amber  .stat-value { color: var(--amber); }
-  .stat-card.c-pink   .stat-value { color: var(--pink); }
-  .stat-sub { font-size: 11.5px; color: var(--text2); }
-  .stat-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 32px; opacity: 0.08; }
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:900px){.grid-2{grid-template-columns:1fr}}
 
-  /* ── DASHBOARD DATE WIDGET ── */
-  .dash-date-card {
-    background: linear-gradient(135deg, rgba(124,108,252,0.15), rgba(34,211,238,0.08));
-    border: 1px solid rgba(124,108,252,0.3);
-    border-radius: var(--radius);
-    padding: 24px 28px;
-    margin-bottom: 24px;
-    display: flex; align-items: center; justify-content: space-between;
-    position: relative; overflow: hidden;
-  }
-  .dash-date-card::after {
-    content: '';
-    position: absolute; right: -40px; top: -40px;
-    width: 160px; height: 160px;
-    background: radial-gradient(circle, rgba(124,108,252,0.15) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .ddc-left h2 {
-    font-size: 32px; font-weight: 700;
-    font-family: var(--mono);
-    color: var(--text);
-    letter-spacing: -1px;
-  }
-  .ddc-left p { font-size: 13px; color: var(--text2); margin-top: 3px; }
-  .ddc-right { text-align: right; }
-  .ddc-right .big-time {
-    font-family: var(--mono);
-    font-size: 36px; font-weight: 700;
-    color: var(--accent2);
-    letter-spacing: -1px;
-  }
-  .ddc-right .greeting { font-size: 12px; color: var(--text2); margin-top: 2px; }
+/* CARD */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.card-title{font-size:13px;font-weight:600;color:var(--text2);letter-spacing:0.3px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title span{color:var(--text3);font-size:11px;font-weight:400;text-transform:none;letter-spacing:0;margin-left:auto}
 
-  /* ── GRID 2-COL ── */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+/* SCHEDULE TABLE */
+.schedule-table{width:100%;border-collapse:collapse}
+.schedule-table th{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.schedule-table td{padding:10px 10px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
+.schedule-table tr:last-child td{border-bottom:none}
+.schedule-table tr:hover td{background:rgba(255,255,255,0.02)}
+.day-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap}
+.day-senin{background:rgba(124,108,252,0.15);color:var(--accent2)}
+.day-selasa{background:rgba(34,211,238,0.12);color:var(--cyan)}
+.day-rabu{background:rgba(74,222,128,0.12);color:var(--green)}
+.day-kamis{background:rgba(251,191,36,0.12);color:var(--amber)}
+.day-jumat{background:rgba(244,114,182,0.12);color:var(--pink)}
 
-  /* ── CARD ── */
-  .card {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-  }
-  .card-title {
-    font-size: 13px; font-weight: 600;
-    color: var(--text2); letter-spacing: 0.3px;
-    text-transform: uppercase; margin-bottom: 14px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .card-title span { color: var(--text3); font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; margin-left: auto; }
+/* FILTER SEMESTER */
+.semester-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
+.semester-filter-label{font-size:12px;color:var(--text3);font-weight:500;letter-spacing:0.5px;text-transform:uppercase;margin-right:4px}
+.chip{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;transition:var(--trans);border:1px solid transparent;user-select:none}
+.chip.selected{border-color:var(--accent);background:rgba(124,108,252,0.12);color:var(--accent3)}
+.chip:not(.selected){background:var(--surface);border-color:var(--border);color:var(--text2)}
+.chip:not(.selected):hover{border-color:var(--border2);color:var(--text)}
+.chip.disabled{opacity:0.35;cursor:default;pointer-events:none}
 
-  /* ── SCHEDULE TABLE ── */
-  .schedule-table { width: 100%; border-collapse: collapse; }
-  .schedule-table th {
-    font-size: 11px; font-weight: 600; color: var(--text3);
-    text-transform: uppercase; letter-spacing: 0.8px;
-    padding: 8px 10px; text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .schedule-table td { padding: 10px 10px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  .schedule-table tr:last-child td { border-bottom: none; }
-  .schedule-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .day-badge {
-    display: inline-block;
-    padding: 2px 10px; border-radius: 20px;
-    font-size: 11px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.5px;
-    white-space: nowrap;
-  }
-  .day-senin  { background: rgba(124,108,252,0.15); color: var(--accent2); }
-  .day-selasa { background: rgba(34,211,238,0.12);  color: var(--cyan); }
-  .day-rabu   { background: rgba(74,222,128,0.12);  color: var(--green); }
-  .day-kamis  { background: rgba(251,191,36,0.12);  color: var(--amber); }
-  .day-jumat  { background: rgba(244,114,182,0.12); color: var(--pink); }
-  .today-row td { background: rgba(124,108,252,0.04); }
-  .today-indicator {
-    width: 6px; height: 6px; background: var(--accent);
-    border-radius: 50%; display: inline-block; margin-right: 6px;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.8)} }
+/* MATKUL CARDS */
+.section-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:20px}
+.matkul-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;cursor:pointer;transition:var(--trans);position:relative;overflow:hidden}
+.matkul-card:hover{border-color:var(--accent);transform:translateY(-2px);background:var(--surface)}
+.mc-day{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px}
+.mc-name{font-size:14px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:6px}
+.mc-time{font-size:12px;color:var(--text2);font-family:var(--mono)}
+.mc-room{font-size:11px;color:var(--text3);margin-top:4px}
+.mc-dosen{font-size:11px;color:var(--text3);margin-top:2px;font-style:italic}
+.semester-badge{position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(124,108,252,0.15);color:var(--accent3);font-family:var(--mono)}
 
-  /* ── TUGAS LIST ── */
-  .task-list { display: flex; flex-direction: column; gap: 8px; }
-  .task-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 10px 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    background: var(--surface);
-    transition: var(--trans);
-  }
-  .task-item:hover { border-color: var(--border2); }
-  .task-check {
-    width: 18px; height: 18px;
-    border: 2px solid var(--border2);
-    border-radius: 5px; flex-shrink: 0;
-    cursor: pointer; transition: var(--trans);
-    display: flex; align-items: center; justify-content: center;
-    margin-top: 1px;
-  }
-  .task-check.done { background: var(--accent); border-color: var(--accent); }
-  .task-check.done::after { content: '✓'; font-size: 11px; color: #fff; font-weight: 700; }
-  .task-item.done .task-name { text-decoration: line-through; color: var(--text3); }
-  .task-name { font-size: 13px; color: var(--text); font-weight: 400; }
-  .task-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
-  .task-deadline {
-    margin-left: auto; flex-shrink: 0;
-    font-size: 11px; font-family: var(--mono);
-    padding: 2px 8px; border-radius: 4px;
-  }
-  .task-deadline.urgent { background: rgba(248,113,113,0.12); color: var(--red); }
-  .task-deadline.soon   { background: rgba(251,191,36,0.12);  color: var(--amber); }
-  .task-deadline.ok     { background: rgba(74,222,128,0.1);   color: var(--green); }
-  .task-add-btn {
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    padding: 9px; border-radius: var(--radius-sm);
-    border: 1px dashed var(--border);
-    cursor: pointer; color: var(--text3); font-size: 13px;
-    transition: var(--trans); margin-top: 4px;
-    background: transparent; font-family: var(--font); width: 100%;
-  }
-  .task-add-btn:hover { border-color: var(--accent); color: var(--accent2); background: rgba(124,108,252,0.05); }
+/* TASK */
+.task-list{display:flex;flex-direction:column;gap:8px}
+.task-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);transition:var(--trans)}
+.task-item:hover{border-color:var(--border2)}
+.task-check{width:18px;height:18px;border:2px solid var(--border2);border-radius:5px;flex-shrink:0;cursor:pointer;transition:var(--trans);display:flex;align-items:center;justify-content:center;margin-top:1px}
+.task-check.done{background:var(--accent);border-color:var(--accent)}
+.task-check.done::after{content:'✓';font-size:11px;color:#fff;font-weight:700}
+.task-item.done .task-name{text-decoration:line-through;color:var(--text3)}
+.task-name{font-size:13px;color:var(--text);font-weight:400}
+.task-meta{font-size:11px;color:var(--text2);margin-top:2px}
+.task-deadline{margin-left:auto;flex-shrink:0;font-size:11px;font-family:var(--mono);padding:2px 8px;border-radius:4px}
+.task-deadline.urgent{background:rgba(248,113,113,0.12);color:var(--red)}
+.task-deadline.soon{background:rgba(251,191,36,0.12);color:var(--amber)}
+.task-deadline.ok{background:rgba(74,222,128,0.1);color:var(--green)}
+.task-add-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:var(--radius-sm);border:1px dashed var(--border);cursor:pointer;color:var(--text3);font-size:13px;transition:var(--trans);margin-top:4px;background:transparent;font-family:var(--font);width:100%}
+.task-add-btn:hover{border-color:var(--accent);color:var(--accent2);background:rgba(124,108,252,0.05)}
 
-  /* ── LEADERBOARD MINI ── */
-  .lb-list { display: flex; flex-direction: column; gap: 6px; }
-  .lb-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 12px;
-    border-radius: var(--radius-sm);
-    background: var(--surface);
-    border: 1px solid var(--border);
-  }
-  .lb-rank { font-family: var(--mono); font-size: 12px; color: var(--text3); width: 18px; flex-shrink: 0; }
-  .lb-rank.gold   { color: var(--amber); font-weight: 700; }
-  .lb-rank.silver { color: #cbd5e1;      font-weight: 600; }
-  .lb-rank.bronze { color: #c97d4c;      font-weight: 600; }
-  .lb-avatar {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--cyan));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
-  }
-  .lb-name { font-size: 13px; color: var(--text); flex: 1; }
-  .lb-score { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--accent2); }
+/* LEADERBOARD */
+.lb-list{display:flex;flex-direction:column;gap:6px}
+.lb-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border)}
+.lb-rank{font-family:var(--mono);font-size:12px;color:var(--text3);width:18px;flex-shrink:0}
+.lb-rank.gold{color:var(--amber);font-weight:700}
+.lb-rank.silver{color:#cbd5e1;font-weight:600}
+.lb-rank.bronze{color:#c97d4c;font-weight:600}
+.lb-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.lb-name{font-size:13px;color:var(--text);flex:1}
+.lb-nim{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.lb-score{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent2)}
 
-  /* ── MATKUL CHIPS ── */
-  .matkul-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    padding: 5px 12px; border-radius: 20px;
-    font-size: 12px; font-weight: 500;
-    cursor: pointer; transition: var(--trans);
-    border: 1px solid transparent;
-  }
-  .chip.selected { border-color: var(--accent); background: rgba(124,108,252,0.12); color: var(--accent3); }
-  .chip:not(.selected) { background: var(--surface); border-color: var(--border); color: var(--text2); }
-  .chip:hover:not(.selected) { border-color: var(--border2); color: var(--text); }
+/* UJIAN */
+.ujian-tabs{display:flex;gap:8px;margin-bottom:20px}
+.ujian-tab{padding:8px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;transition:var(--trans);border:1px solid var(--border);color:var(--text2);background:var(--bg3)}
+.ujian-tab.active{background:rgba(124,108,252,0.12);color:var(--accent3);border-color:rgba(124,108,252,0.3)}
+.ujian-content{display:none}
+.ujian-content.active{display:block;animation:fadeIn 0.2s ease}
+.ujian-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);margin-bottom:8px;transition:var(--trans)}
+.ujian-row:hover{border-color:var(--border2);background:var(--surface2)}
+.ujian-num{font-family:var(--mono);font-size:12px;color:var(--text3);width:22px}
+.ujian-matkul{flex:1;font-size:14px;font-weight:500;color:var(--text)}
+.ujian-meta{font-size:12px;color:var(--text2)}
+.ujian-status{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.status-belum{background:rgba(248,113,113,0.12);color:var(--red)}
+.status-proses{background:rgba(251,191,36,0.12);color:var(--amber)}
+.status-selesai{background:rgba(74,222,128,0.1);color:var(--green)}
 
-  /* ── SECTION FULL PAGE ── */
-  .section-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 20px; }
-  .matkul-card {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    cursor: pointer;
-    transition: var(--trans);
-    position: relative; overflow: hidden;
-  }
-  .matkul-card:hover { border-color: var(--accent); transform: translateY(-2px); background: var(--surface); }
-  .matkul-card .mc-day { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  .matkul-card .mc-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 6px; }
-  .matkul-card .mc-time { font-size: 12px; color: var(--text2); font-family: var(--mono); }
-  .matkul-card .mc-sks  { font-size: 11px; color: var(--text3); margin-top: 4px; }
+/* REKAP */
+.rekap-bar-list{display:flex;flex-direction:column;gap:12px}
+.rekap-bar-header{display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px}
+.rekap-bar-name{color:var(--text2)}
+.rekap-bar-score{color:var(--text);font-weight:600;font-family:var(--mono)}
+.rekap-bar-track{height:6px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.rekap-bar-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(0.4,0,0.2,1)}
 
-  /* ── UJIAN TABLE FULL ── */
-  .ujian-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-  .ujian-tab {
-    padding: 8px 20px; border-radius: var(--radius-sm);
-    font-size: 13px; font-weight: 500; cursor: pointer;
-    transition: var(--trans); border: 1px solid var(--border);
-    color: var(--text2); background: var(--bg3);
-  }
-  .ujian-tab.active { background: rgba(124,108,252,0.12); color: var(--accent3); border-color: rgba(124,108,252,0.3); }
-  .ujian-content { display: none; }
-  .ujian-content.active { display: block; animation: fadeIn 0.2s ease; }
-  .ujian-row {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 16px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    background: var(--surface);
-    margin-bottom: 8px;
-    transition: var(--trans);
-  }
-  .ujian-row:hover { border-color: var(--border2); background: var(--surface2); }
-  .ujian-num { font-family: var(--mono); font-size: 12px; color: var(--text3); width: 22px; }
-  .ujian-matkul { flex: 1; font-size: 14px; font-weight: 500; color: var(--text); }
-  .ujian-meta { font-size: 12px; color: var(--text2); }
-  .ujian-status {
-    padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
-  }
-  .status-belum  { background: rgba(248,113,113,0.12); color: var(--red); }
-  .status-proses { background: rgba(251,191,36,0.12);  color: var(--amber); }
-  .status-selesai{ background: rgba(74,222,128,0.1);   color: var(--green); }
+/* SERTIFIKASI */
+.sert-table{width:100%;border-collapse:collapse}
+.sert-table th{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.7px;padding:8px 10px;border-bottom:1px solid var(--border);text-align:left}
+.sert-table td{padding:11px 10px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
+.sert-table tr:last-child td{border-bottom:none}
+.sert-table tr:hover td{background:rgba(255,255,255,0.02)}
+.sert-actions{display:flex;gap:6px}
+.btn-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-xs);cursor:pointer;transition:var(--trans);font-size:13px;border:1px solid var(--border);background:var(--surface)}
+.btn-icon:hover{border-color:var(--border2)}
+.btn-icon.edit:hover{background:rgba(124,108,252,0.12);border-color:var(--accent);color:var(--accent2)}
+.btn-icon.print:hover{background:rgba(34,211,238,0.1);border-color:var(--cyan);color:var(--cyan)}
+.btn-icon.delete:hover{background:rgba(248,113,113,0.1);border-color:var(--red);color:var(--red)}
+.btn-primary{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:var(--radius-sm);background:var(--accent);color:#fff;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:var(--trans);border:none;text-decoration:none}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-outline{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:var(--radius-sm);border:1px solid var(--border);background:transparent;color:var(--text2);font-family:var(--font);font-size:13px;cursor:pointer;transition:var(--trans)}
+.btn-outline:hover{border-color:var(--border2);color:var(--text);background:var(--surface)}
 
-  /* ── REKAP CHART ── */
-  .rekap-bar-list { display: flex; flex-direction: column; gap: 12px; }
-  .rekap-bar-item { }
-  .rekap-bar-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; }
-  .rekap-bar-name { color: var(--text2); }
-  .rekap-bar-score { color: var(--text); font-weight: 600; font-family: var(--mono); }
-  .rekap-bar-track { height: 6px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
-  .rekap-bar-fill { height: 100%; border-radius: 4px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex;animation:fadeIn 0.2s ease}
+.modal{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:28px;width:100%;max-width:460px}
+.modal h3{font-size:17px;font-weight:600;margin-bottom:18px}
+.modal-form{display:flex;flex-direction:column;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:12px;font-weight:500;color:var(--text2)}
+.form-input{padding:9px 12px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;outline:none;transition:var(--trans)}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,108,252,0.1)}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
 
-  /* ── SERTIFIKASI ── */
-  .sert-table { width: 100%; border-collapse: collapse; }
-  .sert-table th { font-size: 11px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; }
-  .sert-table td { padding: 11px 10px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  .sert-table tr:last-child td { border-bottom: none; }
-  .sert-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .sert-actions { display: flex; gap: 6px; }
-  .btn-icon {
-    width: 28px; height: 28px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: var(--radius-xs);
-    cursor: pointer; transition: var(--trans);
-    font-size: 13px; border: 1px solid var(--border);
-    background: var(--surface);
-  }
-  .btn-icon:hover { border-color: var(--border2); }
-  .btn-icon.edit:hover   { background: rgba(124,108,252,0.12); border-color: var(--accent); color: var(--accent2); }
-  .btn-icon.print:hover  { background: rgba(34,211,238,0.1);   border-color: var(--cyan);   color: var(--cyan); }
-  .btn-icon.delete:hover { background: rgba(248,113,113,0.1);  border-color: var(--red);    color: var(--red); }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 8px 18px; border-radius: var(--radius-sm);
-    background: var(--accent); color: #fff;
-    font-family: var(--font); font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: var(--trans); border: none;
-    text-decoration: none;
-  }
-  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
-  .btn-outline {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 8px 18px; border-radius: var(--radius-sm);
-    border: 1px solid var(--border); background: transparent;
-    color: var(--text2); font-family: var(--font); font-size: 13px;
-    cursor: pointer; transition: var(--trans);
-  }
-  .btn-outline:hover { border-color: var(--border2); color: var(--text); background: var(--surface); }
+/* ANNOUNCE */
+.announce-list{display:flex;flex-direction:column;gap:10px}
+.announce-item{padding:14px 16px;border-radius:var(--radius-sm);border-left:3px solid var(--accent);background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.announce-item.warn{border-left-color:var(--amber)}
+.announce-item.info{border-left-color:var(--cyan)}
+.announce-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.announce-body{font-size:12.5px;color:var(--text2);line-height:1.5}
+.announce-meta{font-size:11px;color:var(--text3);margin-top:6px}
 
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px);
-    display: none; align-items: center; justify-content: center;
-    padding: 20px;
-  }
-  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
-  .modal {
-    background: var(--bg3); border: 1px solid var(--border2);
-    border-radius: var(--radius); padding: 28px;
-    width: 100%; max-width: 460px;
-  }
-  .modal h3 { font-size: 17px; font-weight: 600; margin-bottom: 18px; }
-  .modal-form { display: flex; flex-direction: column; gap: 14px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-label { font-size: 12px; font-weight: 500; color: var(--text2); }
-  .form-input {
-    padding: 9px 12px; border-radius: var(--radius-sm);
-    border: 1px solid var(--border2); background: var(--surface);
-    color: var(--text); font-family: var(--font); font-size: 13px;
-    outline: none; transition: var(--trans);
-  }
-  .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,108,252,0.1); }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+/* KUIS */
+.kuis-matkul-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.kuis-matkul-btn{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;cursor:pointer;transition:var(--trans)}
+.kuis-matkul-btn:hover{border-color:var(--accent);background:var(--surface);transform:translateY(-2px)}
+.kuis-matkul-btn .kmb-day{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px}
+.kuis-matkul-btn .kmb-name{font-size:13px;font-weight:600;color:var(--text);line-height:1.4}
 
-  /* ── KUIS EMBED ── */
-  .kuis-embed-container {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden; background: var(--bg3);
-  }
-  .kuis-placeholder {
-    padding: 60px 30px; text-align: center;
-  }
-  .kuis-placeholder .kp-icon { font-size: 48px; margin-bottom: 14px; }
-  .kuis-placeholder h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-  .kuis-placeholder p { font-size: 13px; color: var(--text2); max-width: 380px; margin: 0 auto 20px; line-height: 1.6; }
+/* KUIS FORM */
+.kuis-login-card{max-width:400px;margin:0 auto;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:32px}
+.kuis-login-card h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.kuis-login-card p{font-size:13px;color:var(--text2);margin-bottom:24px;line-height:1.6}
+.kuis-container{max-width:680px;margin:0 auto}
+.kuis-header{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.kuis-header .kh-info h3{font-size:16px;font-weight:600}
+.kuis-header .kh-info p{font-size:12px;color:var(--text2);margin-top:2px}
+.kuis-timer{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--amber);background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);padding:6px 16px;border-radius:20px}
+.kuis-timer.urgent{color:var(--red);background:rgba(248,113,113,0.1);border-color:rgba(248,113,113,0.2)}
+.soal-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:14px}
+.soal-num{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px}
+.soal-text{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:16px;font-weight:500}
+.pilihan-list{display:flex;flex-direction:column;gap:8px}
+.pilihan-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;transition:var(--trans)}
+.pilihan-item:hover{border-color:var(--border2);background:var(--surface2)}
+.pilihan-item.selected{border-color:var(--accent);background:rgba(124,108,252,0.1)}
+.pilihan-item.correct{border-color:var(--green);background:rgba(74,222,128,0.1)}
+.pilihan-item.wrong{border-color:var(--red);background:rgba(248,113,113,0.1)}
+.pilihan-huruf{width:24px;height:24px;border-radius:6px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:var(--mono)}
+.pilihan-item.selected .pilihan-huruf{background:var(--accent);color:#fff}
+.pilihan-item.correct .pilihan-huruf{background:var(--green);color:#fff}
+.pilihan-item.wrong .pilihan-huruf{background:var(--red);color:#fff}
+.pilihan-text{font-size:13px;color:var(--text)}
+.kuis-progress{height:4px;background:var(--surface2);border-radius:4px;margin-bottom:20px;overflow:hidden}
+.kuis-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:4px;transition:width 0.4s ease}
+.kuis-result{max-width:500px;margin:0 auto;text-align:center;padding:40px 20px}
+.kuis-result .result-score{font-size:72px;font-weight:700;font-family:var(--mono);line-height:1}
+.kuis-result .result-label{font-size:14px;color:var(--text2);margin-top:8px;margin-bottom:24px}
+.kuis-result .result-detail{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:24px;text-align:left}
 
-  /* ── ANNOUNCEMENT ── */
-  .announce-list { display: flex; flex-direction: column; gap: 10px; }
-  .announce-item {
-    padding: 14px 16px; border-radius: var(--radius-sm);
-    border-left: 3px solid var(--accent);
-    background: var(--surface); border-top: 1px solid var(--border);
-    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-  }
-  .announce-item.warn { border-left-color: var(--amber); }
-  .announce-item.info { border-left-color: var(--cyan); }
-  .announce-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-  .announce-body  { font-size: 12.5px; color: var(--text2); line-height: 1.5; }
-  .announce-meta  { font-size: 11px; color: var(--text3); margin-top: 6px; }
+/* EMPTY */
+.empty-state{padding:48px 20px;text-align:center}
+.empty-state .es-icon{font-size:40px;margin-bottom:12px;opacity:0.4}
+.empty-state p{font-size:13px;color:var(--text3)}
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    :root { --sidebar-w: 0px; }
-    #sidebar { transform: translateX(-240px); width: 240px; }
-    #sidebar.open { transform: translateX(0); box-shadow: 8px 0 32px rgba(0,0,0,0.4); }
-    #navbar { padding-left: 56px; }
-    .menu-toggle { display: flex !important; }
-    .grid-2 { grid-template-columns: 1fr; }
-    #main { padding: 16px; }
-  }
-  .menu-toggle {
-    display: none;
-    width: 32px; height: 32px;
-    align-items: center; justify-content: center;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; cursor: pointer;
-    font-size: 16px; position: absolute; left: 12px;
-    color: var(--text2);
-  }
-
-  /* ── EMPTY STATE ── */
-  .empty-state { padding: 48px 20px; text-align: center; }
-  .empty-state .es-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
-  .empty-state p { font-size: 13px; color: var(--text3); }
-
-  /* ── PROGRESS RING ── */
-  .progress-ring-wrap { display: flex; align-items: center; gap: 20px; padding: 8px 0; }
-  .progress-ring-info h4 { font-size: 15px; font-weight: 600; }
-  .progress-ring-info p  { font-size: 12px; color: var(--text2); margin-top: 2px; }
-
+/* RESPONSIVE */
+@media(max-width:768px){
+  :root{--sidebar-w:0px}
+  #sidebar{transform:translateX(-240px);width:240px}
+  #sidebar.open{transform:translateX(0);box-shadow:8px 0 32px rgba(0,0,0,0.4)}
+  #navbar{padding-left:56px}
+  .menu-toggle{display:flex !important}
+  .grid-2{grid-template-columns:1fr}
+  #main{padding:16px}
+}
+.menu-toggle{display:none;width:32px;height:32px;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:16px;position:absolute;left:12px;color:var(--text2)}
 </style>
 </head>
 <body>
 
-<!-- ══════════ NAVBAR ══════════ -->
+<!-- NAVBAR -->
 <nav id="navbar">
-  <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">☰</button>
-
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
   <a class="navbar-brand" href="#" onclick="navigate('dashboard')">
     <div class="navbar-logo">EC</div>
     <div>
@@ -609,637 +297,331 @@
       <div class="navbar-sub">3E — D-4 Administrasi Bisnis · PNUP</div>
     </div>
   </a>
-
   <div class="navbar-right">
     <div id="live-clock">--:--:--</div>
-    <div class="nav-badge" title="Pengumuman">
-      🔔<span class="dot"></span>
-    </div>
+    <div class="nav-badge" title="Pengumuman">🔔<span class="dot"></span></div>
     <div class="nav-badge" title="Pesan">✉️</div>
     <div class="avatar" title="Profil">3E</div>
   </div>
 </nav>
 
-<!-- ══════════ SIDEBAR ══════════ -->
+<!-- SIDEBAR -->
 <aside id="sidebar">
-
   <div class="sidebar-section-label">Menu Utama</div>
-
-  <div class="sidebar-item active" onclick="navigate('dashboard')">
-    <span class="si-icon">🏠</span> Dashboard
-  </div>
-  <div class="sidebar-item" onclick="navigate('jadwal')">
-    <span class="si-icon">📅</span> Jadwal Matkul
-  </div>
-  <div class="sidebar-item" onclick="navigate('tugas')">
-    <span class="si-icon">📋</span> Daftar Tugas
-  </div>
-
+  <div class="sidebar-item active" onclick="navigate('dashboard')"><span class="si-icon">🏠</span>Dashboard</div>
+  <div class="sidebar-item" onclick="navigate('jadwal')"><span class="si-icon">📅</span>Jadwal Matkul</div>
+  <div class="sidebar-item" onclick="navigate('tugas')"><span class="si-icon">📋</span>Daftar Tugas</div>
   <div class="sidebar-divider"></div>
   <div class="sidebar-section-label">Akademik</div>
-
-  <div class="sidebar-item" onclick="toggleSub('sub-kuis', this)">
-    <span class="si-icon">🧩</span> Kuis
-    <span class="si-arrow">›</span>
-  </div>
+  <div class="sidebar-item" onclick="toggleSub('sub-kuis',this)"><span class="si-icon">🧩</span>Kuis<span class="si-arrow">›</span></div>
   <div class="sub-menu" id="sub-kuis">
-    <div class="sub-item" onclick="navigateSub('kuis','perilaku')">Perilaku Konsumen</div>
-    <div class="sub-item" onclick="navigateSub('kuis','investasi')">Manajemen Investasi</div>
-    <div class="sub-item" onclick="navigateSub('kuis','pkn')">Pend. Kewarganegaraan</div>
-    <div class="sub-item" onclick="navigateSub('kuis','kepemimpinan')">Kepemimpinan</div>
-    <div class="sub-item" onclick="navigateSub('kuis','pelayanan')">Pelayanan Prima</div>
-    <div class="sub-item" onclick="navigateSub('kuis','english')">English for Business</div>
-    <div class="sub-item" onclick="navigateSub('kuis','simulasi')">Simulasi Bisnis</div>
-    <div class="sub-item" onclick="navigateSub('kuis','appkom')">Aplikasi Komputer Bisnis</div>
-    <div class="sub-item" onclick="navigateSub('kuis','kebijakan')">Kebijakan Bisnis</div>
-    <div class="sub-item" onclick="navigateSub('kuis','sim')">Sistem Informasi Manajemen</div>
+    <div class="sub-item" onclick="startKuis('perilaku')">Perilaku Konsumen</div>
+    <div class="sub-item" onclick="startKuis('investasi')">Manajemen Investasi</div>
+    <div class="sub-item" onclick="startKuis('pkn')">Pend. Kewarganegaraan</div>
+    <div class="sub-item" onclick="startKuis('kepemimpinan')">Kepemimpinan</div>
+    <div class="sub-item" onclick="startKuis('pelayanan')">Pelayanan Prima</div>
+    <div class="sub-item" onclick="startKuis('english')">English for Business</div>
+    <div class="sub-item" onclick="startKuis('simulasi')">Simulasi Bisnis</div>
+    <div class="sub-item" onclick="startKuis('appkom')">Aplikasi Komputer</div>
+    <div class="sub-item" onclick="startKuis('kebijakan')">Kebijakan Bisnis</div>
+    <div class="sub-item" onclick="startKuis('sim')">SIM</div>
   </div>
-
-  <div class="sidebar-item" onclick="toggleSub('sub-ujian', this)">
-    <span class="si-icon">📝</span> Ujian
-    <span class="si-arrow">›</span>
-  </div>
+  <div class="sidebar-item" onclick="toggleSub('sub-ujian',this)"><span class="si-icon">📝</span>Ujian<span class="si-arrow">›</span></div>
   <div class="sub-menu" id="sub-ujian">
-    <div class="sub-item" onclick="navigateSub('ujian','uts')">📄 UTS</div>
-    <div class="sub-item" onclick="navigateSub('ujian','uas')">📄 UAS</div>
+    <div class="sub-item" onclick="navigate('ujian');setTimeout(()=>switchUjian('uts'),50)">📄 UTS</div>
+    <div class="sub-item" onclick="navigate('ujian');setTimeout(()=>switchUjian('uas'),50)">📄 UAS</div>
   </div>
-
-  <div class="sidebar-item" onclick="navigate('rekap')">
-    <span class="si-icon">📊</span> Rekap Nilai
-  </div>
-
+  <div class="sidebar-item" onclick="navigate('rekap')"><span class="si-icon">📊</span>Rekap Nilai</div>
   <div class="sidebar-divider"></div>
   <div class="sidebar-section-label">Lainnya</div>
-
-  <div class="sidebar-item" onclick="navigate('sertifikasi')">
-    <span class="si-icon">🏅</span> Sertifikasi
-  </div>
-  <div class="sidebar-item" onclick="navigate('materi')">
-    <span class="si-icon">📁</span> Materi & Modul
-  </div>
-  <div class="sidebar-item" onclick="navigate('pengumuman')">
-    <span class="si-icon">📣</span> Pengumuman
-  </div>
-  <div class="sidebar-item" onclick="navigate('leaderboard')">
-    <span class="si-icon">🏆</span> Leaderboard
-  </div>
-
+  <div class="sidebar-item" onclick="navigate('sertifikasi')"><span class="si-icon">🏅</span>Sertifikasi</div>
+  <div class="sidebar-item" onclick="navigate('materi')"><span class="si-icon">📁</span>Materi & Modul</div>
+  <div class="sidebar-item" onclick="navigate('pengumuman')"><span class="si-icon">📣</span>Pengumuman</div>
+  <div class="sidebar-item" onclick="navigate('leaderboard')"><span class="si-icon">🏆</span>Leaderboard</div>
 </aside>
 
-<!-- ══════════ MAIN CONTENT ══════════ -->
+<!-- MAIN -->
 <main id="main">
 
-  <!-- ── PAGE: DASHBOARD ── -->
-  <div id="page-dashboard" class="page active">
-    <div class="page-header">
-      <h1>Dashboard</h1>
-      <p>Selamat datang di portal akademik Kelas 3E — Administrasi Bisnis</p>
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page active">
+  <div class="page-header"><h1>Dashboard</h1><p>Selamat datang di portal akademik Kelas 3E — Administrasi Bisnis</p></div>
+  <div class="dash-date-card">
+    <div class="ddc-left"><h2 id="dash-date">—</h2><p id="dash-dayname">—</p></div>
+    <div class="ddc-right"><div class="big-time" id="dash-time">--:--</div><div class="greeting" id="dash-greeting">—</div></div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-card c-purple"><div class="stat-label">Mata Kuliah</div><div class="stat-value">10</div><div class="stat-sub">Semester 6 · 5 hari</div><div class="stat-icon">📚</div></div>
+    <div class="stat-card c-cyan"><div class="stat-label">Total Tugas</div><div class="stat-value" id="stat-tugas">0</div><div class="stat-sub" id="stat-tugas-sub">—</div><div class="stat-icon">📋</div></div>
+    <div class="stat-card c-amber"><div class="stat-label">Mahasiswa</div><div class="stat-value">24</div><div class="stat-sub">Kelas 3E aktif</div><div class="stat-icon">👥</div></div>
+    <div class="stat-card c-green"><div class="stat-label">Sertifikasi</div><div class="stat-value" id="stat-sert">0</div><div class="stat-sub">tersimpan</div><div class="stat-icon">🏅</div></div>
+    <div class="stat-card c-pink"><div class="stat-label">Ujian</div><div class="stat-value">2</div><div class="stat-sub">UTS &amp; UAS</div><div class="stat-icon">📝</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📅 Jadwal hari ini <span id="today-label"></span></div>
+      <table class="schedule-table"><thead><tr><th>Mata Kuliah</th><th>Waktu</th><th>Ruang</th></tr></thead><tbody id="today-schedule-body"></tbody></table>
     </div>
-
-    <!-- Date & Time Hero -->
-    <div class="dash-date-card">
-      <div class="ddc-left">
-        <h2 id="dash-date">—</h2>
-        <p id="dash-dayname">—</p>
-      </div>
-      <div class="ddc-right">
-        <div class="big-time" id="dash-time">--:--:--</div>
-        <div class="greeting" id="dash-greeting">—</div>
-      </div>
-    </div>
-
-    <!-- Stat Cards -->
-    <div class="stat-grid">
-      <div class="stat-card c-purple">
-        <div class="stat-label">Mata Kuliah</div>
-        <div class="stat-value">10</div>
-        <div class="stat-sub">5 hari aktif kuliah</div>
-        <div class="stat-icon">📚</div>
-      </div>
-      <div class="stat-card c-cyan">
-        <div class="stat-label">Total Tugas</div>
-        <div class="stat-value" id="stat-tugas">0</div>
-        <div class="stat-sub" id="stat-tugas-sub">—</div>
-        <div class="stat-icon">📋</div>
-      </div>
-      <div class="stat-card c-amber">
-        <div class="stat-label">Kuis Tersedia</div>
-        <div class="stat-value">10</div>
-        <div class="stat-sub">per mata kuliah</div>
-        <div class="stat-icon">🧩</div>
-      </div>
-      <div class="stat-card c-green">
-        <div class="stat-label">Sertifikasi</div>
-        <div class="stat-value" id="stat-sert">0</div>
-        <div class="stat-sub">tersimpan</div>
-        <div class="stat-icon">🏅</div>
-      </div>
-      <div class="stat-card c-pink">
-        <div class="stat-label">Ujian Aktif</div>
-        <div class="stat-value">2</div>
-        <div class="stat-sub">UTS &amp; UAS</div>
-        <div class="stat-icon">📝</div>
-      </div>
-    </div>
-
-    <!-- Bottom Grid -->
-    <div class="grid-2">
-      <!-- Jadwal hari ini -->
-      <div class="card">
-        <div class="card-title">📅 Jadwal hari ini <span id="today-label"></span></div>
-        <table class="schedule-table" id="today-schedule">
-          <thead><tr><th>Mata Kuliah</th><th>Waktu</th></tr></thead>
-          <tbody id="today-schedule-body">
-            <tr><td colspan="2"><div class="empty-state"><div class="es-icon">😴</div><p>Tidak ada kuliah hari ini</p></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Tugas mendekati deadline -->
-      <div class="card">
-        <div class="card-title">⚠️ Tugas deadline terdekat</div>
-        <div class="task-list" id="urgent-tasks">
-          <div class="empty-state"><div class="es-icon">✅</div><p>Semua tugas sudah terkelola</p></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid-2">
-      <!-- Pengumuman -->
-      <div class="card">
-        <div class="card-title">📣 Pengumuman terbaru</div>
-        <div class="announce-list">
-          <div class="announce-item">
-            <div class="announce-title">Excellent Class Portal — Launched 🚀</div>
-            <div class="announce-body">Web portal resmi kelas 3E D-4 Administrasi Bisnis kini telah aktif. Gunakan untuk jadwal, tugas, kuis, dan informasi akademik.</div>
-            <div class="announce-meta">Admin · Hari ini</div>
-          </div>
-          <div class="announce-item warn">
-            <div class="announce-title">Reminder: Lengkapi data sertifikasi</div>
-            <div class="announce-body">Mohon segera input sertifikat yang dimiliki ke menu Sertifikasi untuk keperluan portofolio akademik.</div>
-            <div class="announce-meta">Ketua Kelas · Hari ini</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Leaderboard mini -->
-      <div class="card">
-        <div class="card-title">🏆 Top kuis — semester ini</div>
-        <div class="lb-list">
-          <div class="lb-item">
-            <div class="lb-rank gold">1</div>
-            <div class="lb-avatar">AM</div>
-            <div class="lb-name">Anisa Maharani</div>
-            <div class="lb-score">98</div>
-          </div>
-          <div class="lb-item">
-            <div class="lb-rank silver">2</div>
-            <div class="lb-avatar" style="background:linear-gradient(135deg,var(--cyan),var(--green))">RD</div>
-            <div class="lb-name">Rizky Dermawan</div>
-            <div class="lb-score">95</div>
-          </div>
-          <div class="lb-item">
-            <div class="lb-rank bronze">3</div>
-            <div class="lb-avatar" style="background:linear-gradient(135deg,var(--amber),var(--pink))">NF</div>
-            <div class="lb-name">Nurul Fadilah</div>
-            <div class="lb-score">93</div>
-          </div>
-          <div class="lb-item">
-            <div class="lb-rank">4</div>
-            <div class="lb-avatar" style="background:linear-gradient(135deg,var(--pink),var(--red))">MA</div>
-            <div class="lb-name">Muh. Arfan</div>
-            <div class="lb-score">90</div>
-          </div>
-          <div class="lb-item">
-            <div class="lb-rank">5</div>
-            <div class="lb-avatar" style="background:linear-gradient(135deg,var(--green),var(--cyan))">SR</div>
-            <div class="lb-name">Siti Rahmawati</div>
-            <div class="lb-score">88</div>
-          </div>
-        </div>
-      </div>
+    <div class="card">
+      <div class="card-title">⚠️ Tugas deadline terdekat</div>
+      <div class="task-list" id="urgent-tasks"><div class="empty-state"><div class="es-icon">✅</div><p>Tidak ada tugas mendesak</p></div></div>
     </div>
   </div>
-
-  <!-- ── PAGE: JADWAL ── -->
-  <div id="page-jadwal" class="page">
-    <div class="page-header">
-      <h1>Jadwal Mata Kuliah</h1>
-      <p>Jadwal kuliah kelas 3E D-4 Administrasi Bisnis — semester aktif</p>
-    </div>
-    <div class="section-grid">
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-senin">Senin</div>
-        <div class="mc-name">Perilaku Konsumen</div>
-        <div class="mc-time">07.30 – 09.10</div>
-        <div class="mc-sks">3 SKS · Ruang A301</div>
-      </div>
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-senin">Senin</div>
-        <div class="mc-name">Manajemen Investasi dan Portofolio</div>
-        <div class="mc-time">09.30 – 11.10</div>
-        <div class="mc-sks">3 SKS · Ruang A301</div>
-      </div>
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-selasa">Selasa</div>
-        <div class="mc-name">Pendidikan Kewarganegaraan</div>
-        <div class="mc-time">07.30 – 09.10</div>
-        <div class="mc-sks">2 SKS · Ruang B201</div>
-      </div>
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-selasa">Selasa</div>
-        <div class="mc-name">Kepemimpinan</div>
-        <div class="mc-time">09.30 – 11.10</div>
-        <div class="mc-sks">3 SKS · Ruang B201</div>
-      </div>
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-selasa">Selasa</div>
-        <div class="mc-name">Pelayanan Prima</div>
-        <div class="mc-time">13.00 – 14.40</div>
-        <div class="mc-sks">3 SKS · Ruang B202</div>
-      </div>
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-rabu">Rabu</div>
-        <div class="mc-name">English for Business Correspondence</div>
-        <div class="mc-time">07.30 – 09.10</div>
-        <div class="mc-sks">2 SKS · Lab Bahasa</div>
-      </div>
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-rabu">Rabu</div>
-        <div class="mc-name">Simulasi Bisnis</div>
-        <div class="mc-time">09.30 – 12.00</div>
-        <div class="mc-sks">3 SKS · Ruang A302</div>
-      </div>
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-kamis">Kamis</div>
-        <div class="mc-name">Aplikasi Komputer Bisnis</div>
-        <div class="mc-time">07.30 – 10.00</div>
-        <div class="mc-sks">3 SKS · Lab Komputer</div>
-      </div>
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-jumat">Jumat</div>
-        <div class="mc-name">Kebijakan Bisnis</div>
-        <div class="mc-time">07.30 – 09.10</div>
-        <div class="mc-sks">3 SKS · Ruang C101</div>
-      </div>
-      <div class="matkul-card" onclick="navigate('kuis')">
-        <div class="mc-day day-jumat">Jumat</div>
-        <div class="mc-name">Sistem Informasi Manajemen</div>
-        <div class="mc-time">09.30 – 11.10</div>
-        <div class="mc-sks">3 SKS · Ruang C101</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📣 Pengumuman terbaru</div>
+      <div class="announce-list">
+        <div class="announce-item"><div class="announce-title">Excellent Class Portal — Live 🚀</div><div class="announce-body">Web portal resmi kelas 3E D-4 Administrasi Bisnis kini aktif.</div><div class="announce-meta">Admin · Hari ini</div></div>
+        <div class="announce-item warn"><div class="announce-title">Reminder: Input sertifikasi</div><div class="announce-body">Segera input sertifikat yang dimiliki untuk portofolio akademik.</div><div class="announce-meta">Ketua Kelas · Hari ini</div></div>
       </div>
     </div>
     <div class="card">
-      <div class="card-title">📊 Jadwal lengkap — tabel</div>
-      <table class="schedule-table">
-        <thead><tr><th>Hari</th><th>Mata Kuliah</th><th>Waktu</th><th>SKS</th><th>Ruang</th></tr></thead>
-        <tbody>
-          <tr><td><span class="day-badge day-senin">Senin</span></td><td>Perilaku Konsumen</td><td class="mono">07.30–09.10</td><td>3</td><td>A301</td></tr>
-          <tr><td><span class="day-badge day-senin">Senin</span></td><td>Manajemen Investasi &amp; Portofolio</td><td class="mono">09.30–11.10</td><td>3</td><td>A301</td></tr>
-          <tr><td><span class="day-badge day-selasa">Selasa</span></td><td>Pendidikan Kewarganegaraan</td><td class="mono">07.30–09.10</td><td>2</td><td>B201</td></tr>
-          <tr><td><span class="day-badge day-selasa">Selasa</span></td><td>Kepemimpinan</td><td class="mono">09.30–11.10</td><td>3</td><td>B201</td></tr>
-          <tr><td><span class="day-badge day-selasa">Selasa</span></td><td>Pelayanan Prima</td><td class="mono">13.00–14.40</td><td>3</td><td>B202</td></tr>
-          <tr><td><span class="day-badge day-rabu">Rabu</span></td><td>English for Business Correspondence</td><td class="mono">07.30–09.10</td><td>2</td><td>Lab Bahasa</td></tr>
-          <tr><td><span class="day-badge day-rabu">Rabu</span></td><td>Simulasi Bisnis</td><td class="mono">09.30–12.00</td><td>3</td><td>A302</td></tr>
-          <tr><td><span class="day-badge day-kamis">Kamis</span></td><td>Aplikasi Komputer Bisnis</td><td class="mono">07.30–10.00</td><td>3</td><td>Lab Komputer</td></tr>
-          <tr><td><span class="day-badge day-jumat">Jumat</span></td><td>Kebijakan Bisnis</td><td class="mono">07.30–09.10</td><td>3</td><td>C101</td></tr>
-          <tr><td><span class="day-badge day-jumat">Jumat</span></td><td>Sistem Informasi Manajemen</td><td class="mono">09.30–11.10</td><td>3</td><td>C101</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ── PAGE: TUGAS ── -->
-  <div id="page-tugas" class="page">
-    <div class="page-header">
-      <h1>Daftar Tugas</h1>
-      <p>Kelola tugas per mata kuliah — centang jika sudah selesai</p>
-    </div>
-    <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
-      <button class="btn-primary" onclick="openModal('modal-tugas')">+ Tambah Tugas</button>
-      <div class="matkul-chips" id="tugas-filter-chips">
-        <span class="chip selected" onclick="filterTugas('all',this)">Semua</span>
-        <span class="chip" onclick="filterTugas('Perilaku Konsumen',this)">Perilaku Konsumen</span>
-        <span class="chip" onclick="filterTugas('Manajemen Investasi',this)">Manajemen Investasi</span>
-        <span class="chip" onclick="filterTugas('PKn',this)">PKn</span>
-        <span class="chip" onclick="filterTugas('Kepemimpinan',this)">Kepemimpinan</span>
-        <span class="chip" onclick="filterTugas('English',this)">English</span>
-        <span class="chip" onclick="filterTugas('Aplikasi Komputer',this)">App. Komputer</span>
-        <span class="chip" onclick="filterTugas('Kebijakan Bisnis',this)">Kebijakan Bisnis</span>
-        <span class="chip" onclick="filterTugas('SIM',this)">SIM</span>
-      </div>
-    </div>
-    <div class="card">
-      <div class="task-list" id="main-task-list"></div>
-      <button class="task-add-btn" onclick="openModal('modal-tugas')">＋ Tambah tugas baru</button>
-    </div>
-  </div>
-
-  <!-- ── PAGE: KUIS ── -->
-  <div id="page-kuis" class="page">
-    <div class="page-header">
-      <h1 id="kuis-title">Kuis</h1>
-      <p id="kuis-desc">Pilih mata kuliah dari sidebar untuk memulai kuis</p>
-    </div>
-    <div class="kuis-embed-container">
-      <div class="kuis-placeholder">
-        <div class="kp-icon">🧩</div>
-        <h3>Kuis — <span id="kuis-matkul-name">—</span></h3>
-        <p>Kuis dijalankan melalui Google Apps Script yang terhubung ke Google Spreadsheet. Hubungkan URL Apps Script Web App kamu di sini.</p>
-        <button class="btn-primary" onclick="alert('Masukkan URL Apps Script Web App kamu di variabel KUIS_URL dalam kode JS.')">🔗 Buka Kuis</button>
-      </div>
-    </div>
-    <div style="margin-top:14px" class="card">
-      <div class="card-title">ℹ️ Cara menghubungkan kuis</div>
-      <p style="font-size:13px;color:var(--text2);line-height:1.7">
-        1. Buat Google Spreadsheet berisi soal kuis.<br>
-        2. Buka <strong>Extensions → Apps Script</strong>, buat <code>code.gs</code> dan <code>index.html</code>.<br>
-        3. Deploy sebagai <strong>Web App</strong> (akses: Anyone).<br>
-        4. Salin URL Web App, tempel ke variabel <code>KUIS_URL</code> di <code>index.html</code> ini.<br>
-        5. Kuis akan tampil di dalam halaman ini secara otomatis.
-      </p>
-    </div>
-  </div>
-
-  <!-- ── PAGE: UJIAN ── -->
-  <div id="page-ujian" class="page">
-    <div class="page-header">
-      <h1>Ujian</h1>
-      <p>Jadwal dan informasi ujian UTS &amp; UAS kelas 3E</p>
-    </div>
-    <div class="ujian-tabs">
-      <button class="ujian-tab active" onclick="switchUjian('uts',this)">📄 UTS</button>
-      <button class="ujian-tab" onclick="switchUjian('uas',this)">📄 UAS</button>
-    </div>
-
-    <div id="ujian-uts" class="ujian-content active">
-      <div class="card" style="margin-bottom:14px">
-        <div class="card-title">📄 Ujian Tengah Semester (UTS)</div>
-        <div class="ujian-row"><div class="ujian-num">01</div><div class="ujian-matkul">Perilaku Konsumen</div><div class="ujian-meta">Senin, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">02</div><div class="ujian-matkul">Manajemen Investasi &amp; Portofolio</div><div class="ujian-meta">Senin, TBD · 09.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">03</div><div class="ujian-matkul">Pendidikan Kewarganegaraan</div><div class="ujian-meta">Selasa, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">04</div><div class="ujian-matkul">Kepemimpinan</div><div class="ujian-meta">Selasa, TBD · 09.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">05</div><div class="ujian-matkul">Pelayanan Prima</div><div class="ujian-meta">Selasa, TBD · 13.00</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">06</div><div class="ujian-matkul">English for Business Correspondence</div><div class="ujian-meta">Rabu, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">07</div><div class="ujian-matkul">Simulasi Bisnis</div><div class="ujian-meta">Rabu, TBD · 09.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">08</div><div class="ujian-matkul">Aplikasi Komputer Bisnis</div><div class="ujian-meta">Kamis, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">09</div><div class="ujian-matkul">Kebijakan Bisnis</div><div class="ujian-meta">Jumat, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">10</div><div class="ujian-matkul">Sistem Informasi Manajemen</div><div class="ujian-meta">Jumat, TBD · 09.30</div><div class="ujian-status status-belum">Belum</div></div>
-      </div>
-    </div>
-
-    <div id="ujian-uas" class="ujian-content">
-      <div class="card" style="margin-bottom:14px">
-        <div class="card-title">📄 Ujian Akhir Semester (UAS)</div>
-        <div class="ujian-row"><div class="ujian-num">01</div><div class="ujian-matkul">Perilaku Konsumen</div><div class="ujian-meta">Senin, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">02</div><div class="ujian-matkul">Manajemen Investasi &amp; Portofolio</div><div class="ujian-meta">Senin, TBD · 09.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">03</div><div class="ujian-matkul">Pendidikan Kewarganegaraan</div><div class="ujian-meta">Selasa, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">04</div><div class="ujian-matkul">Kepemimpinan</div><div class="ujian-meta">Selasa, TBD · 09.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">05</div><div class="ujian-matkul">Pelayanan Prima</div><div class="ujian-meta">Selasa, TBD · 13.00</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">06</div><div class="ujian-matkul">English for Business Correspondence</div><div class="ujian-meta">Rabu, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">07</div><div class="ujian-matkul">Simulasi Bisnis</div><div class="ujian-meta">Rabu, TBD · 09.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">08</div><div class="ujian-matkul">Aplikasi Komputer Bisnis</div><div class="ujian-meta">Kamis, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">09</div><div class="ujian-matkul">Kebijakan Bisnis</div><div class="ujian-meta">Jumat, TBD · 07.30</div><div class="ujian-status status-belum">Belum</div></div>
-        <div class="ujian-row"><div class="ujian-num">10</div><div class="ujian-matkul">Sistem Informasi Manajemen</div><div class="ujian-meta">Jumat, TBD · 09.30</div><div class="ujian-status status-belum">Belum</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── PAGE: REKAP NILAI ── -->
-  <div id="page-rekap" class="page">
-    <div class="page-header">
-      <h1>Rekap Nilai</h1>
-      <p>Rata-rata nilai kuis seluruh mata kuliah</p>
-    </div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">📊 Rata-rata nilai per matkul</div>
-        <div class="rekap-bar-list">
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">Perilaku Konsumen</span><span class="rekap-bar-score">85</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:85%;background:var(--accent)"></div></div>
-          </div>
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">Manajemen Investasi</span><span class="rekap-bar-score">78</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:78%;background:var(--cyan)"></div></div>
-          </div>
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">PKn</span><span class="rekap-bar-score">90</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:90%;background:var(--green)"></div></div>
-          </div>
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">Kepemimpinan</span><span class="rekap-bar-score">82</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:82%;background:var(--amber)"></div></div>
-          </div>
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">Pelayanan Prima</span><span class="rekap-bar-score">88</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:88%;background:var(--pink)"></div></div>
-          </div>
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">English for Business</span><span class="rekap-bar-score">75</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:75%;background:var(--accent2)"></div></div>
-          </div>
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">Simulasi Bisnis</span><span class="rekap-bar-score">80</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:80%;background:var(--cyan)"></div></div>
-          </div>
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">Aplikasi Komputer</span><span class="rekap-bar-score">92</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:92%;background:var(--green)"></div></div>
-          </div>
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">Kebijakan Bisnis</span><span class="rekap-bar-score">77</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:77%;background:var(--amber)"></div></div>
-          </div>
-          <div class="rekap-bar-item">
-            <div class="rekap-bar-header"><span class="rekap-bar-name">SIM</span><span class="rekap-bar-score">84</span></div>
-            <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:84%;background:var(--accent)"></div></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">📋 Rekap nilai detail</div>
-        <table class="schedule-table">
-          <thead><tr><th>Mata Kuliah</th><th>Kuis</th><th>UTS</th><th>UAS</th></tr></thead>
-          <tbody>
-            <tr><td>Perilaku Konsumen</td><td>85</td><td>—</td><td>—</td></tr>
-            <tr><td>Manajemen Investasi</td><td>78</td><td>—</td><td>—</td></tr>
-            <tr><td>PKn</td><td>90</td><td>—</td><td>—</td></tr>
-            <tr><td>Kepemimpinan</td><td>82</td><td>—</td><td>—</td></tr>
-            <tr><td>Pelayanan Prima</td><td>88</td><td>—</td><td>—</td></tr>
-            <tr><td>English for Business</td><td>75</td><td>—</td><td>—</td></tr>
-            <tr><td>Simulasi Bisnis</td><td>80</td><td>—</td><td>—</td></tr>
-            <tr><td>Aplikasi Komputer</td><td>92</td><td>—</td><td>—</td></tr>
-            <tr><td>Kebijakan Bisnis</td><td>77</td><td>—</td><td>—</td></tr>
-            <tr><td>SIM</td><td>84</td><td>—</td><td>—</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── PAGE: SERTIFIKASI ── -->
-  <div id="page-sertifikasi" class="page">
-    <div class="page-header">
-      <h1>Sertifikasi</h1>
-      <p>Kelola sertifikat kompetensi dan prestasi — bisa cetak PDF</p>
-    </div>
-    <div style="display:flex;gap:10px;margin-bottom:20px;">
-      <button class="btn-primary" onclick="openModal('modal-sert')">+ Tambah Sertifikasi</button>
-    </div>
-    <div class="card">
-      <table class="sert-table" id="sert-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nama Sertifikasi</th>
-            <th>Lembaga</th>
-            <th>Tanggal</th>
-            <th>Level</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody id="sert-body">
-          <tr id="sert-empty"><td colspan="6"><div class="empty-state"><div class="es-icon">🏅</div><p>Belum ada sertifikasi. Tambahkan sekarang!</p></div></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ── PAGE: MATERI ── -->
-  <div id="page-materi" class="page">
-    <div class="page-header">
-      <h1>Materi &amp; Modul</h1>
-      <p>Kumpulan materi kuliah per mata kuliah</p>
-    </div>
-    <div class="section-grid">
-      <div class="matkul-card"><div class="mc-day day-senin">Senin</div><div class="mc-name">Perilaku Konsumen</div><div class="mc-time">📄 Belum ada materi</div></div>
-      <div class="matkul-card"><div class="mc-day day-senin">Senin</div><div class="mc-name">Manajemen Investasi</div><div class="mc-time">📄 Belum ada materi</div></div>
-      <div class="matkul-card"><div class="mc-day day-selasa">Selasa</div><div class="mc-name">PKn</div><div class="mc-time">📄 Belum ada materi</div></div>
-      <div class="matkul-card"><div class="mc-day day-selasa">Selasa</div><div class="mc-name">Kepemimpinan</div><div class="mc-time">📄 Belum ada materi</div></div>
-      <div class="matkul-card"><div class="mc-day day-selasa">Selasa</div><div class="mc-name">Pelayanan Prima</div><div class="mc-time">📄 Belum ada materi</div></div>
-      <div class="matkul-card"><div class="mc-day day-rabu">Rabu</div><div class="mc-name">English for Business</div><div class="mc-time">📄 Belum ada materi</div></div>
-      <div class="matkul-card"><div class="mc-day day-rabu">Rabu</div><div class="mc-name">Simulasi Bisnis</div><div class="mc-time">📄 Belum ada materi</div></div>
-      <div class="matkul-card"><div class="mc-day day-kamis">Kamis</div><div class="mc-name">Aplikasi Komputer Bisnis</div><div class="mc-time">📄 Belum ada materi</div></div>
-      <div class="matkul-card"><div class="mc-day day-jumat">Jumat</div><div class="mc-name">Kebijakan Bisnis</div><div class="mc-time">📄 Belum ada materi</div></div>
-      <div class="matkul-card"><div class="mc-day day-jumat">Jumat</div><div class="mc-name">SIM</div><div class="mc-time">📄 Belum ada materi</div></div>
-    </div>
-  </div>
-
-  <!-- ── PAGE: PENGUMUMAN ── -->
-  <div id="page-pengumuman" class="page">
-    <div class="page-header">
-      <h1>Pengumuman</h1>
-      <p>Informasi dan pengumuman penting kelas 3E</p>
-    </div>
-    <div class="announce-list">
-      <div class="announce-item">
-        <div class="announce-title">Excellent Class Portal — Launched 🚀</div>
-        <div class="announce-body">Web portal resmi kelas 3E D-4 Administrasi Bisnis kini telah aktif. Gunakan untuk jadwal, tugas, kuis, dan informasi akademik lainnya.</div>
-        <div class="announce-meta">Admin Excellent Class · Hari ini</div>
-      </div>
-      <div class="announce-item warn">
-        <div class="announce-title">Reminder: Input data sertifikasi</div>
-        <div class="announce-body">Mohon segera input sertifikat yang dimiliki ke menu Sertifikasi untuk keperluan portofolio akademik semester ini.</div>
-        <div class="announce-meta">Ketua Kelas · Hari ini</div>
-      </div>
-      <div class="announce-item info">
-        <div class="announce-title">Jadwal UTS akan segera diinformasikan</div>
-        <div class="announce-body">Jadwal Ujian Tengah Semester akan diumumkan melalui portal ini. Pantau terus halaman Ujian untuk informasi terbaru.</div>
-        <div class="announce-meta">Admin · Hari ini</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── PAGE: LEADERBOARD ── -->
-  <div id="page-leaderboard" class="page">
-    <div class="page-header">
-      <h1>Leaderboard</h1>
-      <p>Rangking nilai kuis terbaik kelas 3E semester ini</p>
-    </div>
-    <div class="card">
-      <div class="card-title">🏆 Top 10 — semua mata kuliah</div>
-      <div class="lb-list">
-        <div class="lb-item"><div class="lb-rank gold">1</div><div class="lb-avatar">AM</div><div class="lb-name">Anisa Maharani</div><div class="lb-score">98</div></div>
-        <div class="lb-item"><div class="lb-rank silver">2</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--cyan),var(--green))">RD</div><div class="lb-name">Rizky Dermawan</div><div class="lb-score">95</div></div>
-        <div class="lb-item"><div class="lb-rank bronze">3</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--amber),var(--pink))">NF</div><div class="lb-name">Nurul Fadilah</div><div class="lb-score">93</div></div>
-        <div class="lb-item"><div class="lb-rank">4</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--pink),var(--red))">MA</div><div class="lb-name">Muh. Arfan</div><div class="lb-score">90</div></div>
-        <div class="lb-item"><div class="lb-rank">5</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--green),var(--cyan))">SR</div><div class="lb-name">Siti Rahmawati</div><div class="lb-score">88</div></div>
-        <div class="lb-item"><div class="lb-rank">6</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--accent),var(--cyan))">FH</div><div class="lb-name">Fitri Handayani</div><div class="lb-score">86</div></div>
-        <div class="lb-item"><div class="lb-rank">7</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--amber),var(--accent))">AR</div><div class="lb-name">Andi Rahman</div><div class="lb-score">84</div></div>
-        <div class="lb-item"><div class="lb-rank">8</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--red),var(--amber))">DN</div><div class="lb-name">Dewi Nuraini</div><div class="lb-score">82</div></div>
-        <div class="lb-item"><div class="lb-rank">9</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--cyan),var(--accent))">IP</div><div class="lb-name">Indra Pratama</div><div class="lb-score">80</div></div>
-        <div class="lb-item"><div class="lb-rank">10</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--pink),var(--accent2))">LM</div><div class="lb-name">Lina Marlina</div><div class="lb-score">78</div></div>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-<!-- ══════════ MODALS ══════════ -->
-
-<!-- Modal Tambah Tugas -->
-<div id="modal-tugas" class="modal-overlay" onclick="closeOnOverlay(event,'modal-tugas')">
-  <div class="modal">
-    <h3>➕ Tambah Tugas</h3>
-    <div class="modal-form">
-      <div class="form-group">
-        <label class="form-label">Nama Tugas</label>
-        <input class="form-input" id="tugas-name" placeholder="Contoh: Resume Bab 3..." />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Mata Kuliah</label>
-        <select class="form-input" id="tugas-matkul">
-          <option>Perilaku Konsumen</option>
-          <option>Manajemen Investasi</option>
-          <option>PKn</option>
-          <option>Kepemimpinan</option>
-          <option>Pelayanan Prima</option>
-          <option>English</option>
-          <option>Simulasi Bisnis</option>
-          <option>Aplikasi Komputer</option>
-          <option>Kebijakan Bisnis</option>
-          <option>SIM</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Deadline</label>
-        <input class="form-input" id="tugas-deadline" type="date" />
-      </div>
-    </div>
-    <div class="modal-actions" style="margin-top:16px">
-      <button class="btn-outline" onclick="closeModal('modal-tugas')">Batal</button>
-      <button class="btn-primary" onclick="addTugas()">Simpan Tugas</button>
+      <div class="card-title">🏆 Top kuis semester ini</div>
+      <div class="lb-list" id="dash-leaderboard"></div>
     </div>
   </div>
 </div>
 
-<!-- Modal Tambah Sertifikasi -->
+<!-- JADWAL -->
+<div id="page-jadwal" class="page">
+  <div class="page-header"><h1>Jadwal Mata Kuliah</h1><p>Filter per semester — Kelas 3E D-4 Administrasi Bisnis</p></div>
+  <div class="semester-filter">
+    <span class="semester-filter-label">Semester:</span>
+    <span class="chip disabled" onclick="filterSemester(1,this)">1</span>
+    <span class="chip disabled" onclick="filterSemester(2,this)">2</span>
+    <span class="chip disabled" onclick="filterSemester(3,this)">3</span>
+    <span class="chip disabled" onclick="filterSemester(4,this)">4</span>
+    <span class="chip disabled" onclick="filterSemester(5,this)">5</span>
+    <span class="chip selected" onclick="filterSemester(6,this)">6</span>
+    <span class="chip disabled" onclick="filterSemester(7,this)">7</span>
+    <span class="chip disabled" onclick="filterSemester(8,this)">8</span>
+  </div>
+  <div id="jadwal-grid" class="section-grid"></div>
+  <div class="card">
+    <div class="card-title">📊 Tabel jadwal lengkap</div>
+    <table class="schedule-table" id="jadwal-table">
+      <thead><tr><th>Hari</th><th>Mata Kuliah</th><th>Waktu</th><th>Ruang</th><th>Dosen</th><th>SKS</th></tr></thead>
+      <tbody id="jadwal-table-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TUGAS -->
+<div id="page-tugas" class="page">
+  <div class="page-header"><h1>Daftar Tugas</h1><p>Kelola tugas per mata kuliah</p></div>
+  <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+    <button class="btn-primary" onclick="openModal('modal-tugas')">+ Tambah Tugas</button>
+    <div style="display:flex;flex-wrap:wrap;gap:6px" id="tugas-filter-chips">
+      <span class="chip selected" onclick="filterTugas('all',this)">Semua</span>
+      <span class="chip" onclick="filterTugas('Perilaku Konsumen',this)">Perilaku Konsumen</span>
+      <span class="chip" onclick="filterTugas('Manajemen Investasi',this)">Manajemen Investasi</span>
+      <span class="chip" onclick="filterTugas('PKn',this)">PKn</span>
+      <span class="chip" onclick="filterTugas('Kepemimpinan',this)">Kepemimpinan</span>
+      <span class="chip" onclick="filterTugas('Pelayanan Prima',this)">Pelayanan Prima</span>
+      <span class="chip" onclick="filterTugas('English',this)">English</span>
+      <span class="chip" onclick="filterTugas('Simulasi Bisnis',this)">Simulasi Bisnis</span>
+      <span class="chip" onclick="filterTugas('Aplikasi Komputer',this)">App. Komputer</span>
+      <span class="chip" onclick="filterTugas('Kebijakan Bisnis',this)">Kebijakan Bisnis</span>
+      <span class="chip" onclick="filterTugas('SIM',this)">SIM</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="task-list" id="main-task-list"></div>
+    <button class="task-add-btn" onclick="openModal('modal-tugas')">＋ Tambah tugas baru</button>
+  </div>
+</div>
+
+<!-- KUIS -->
+<div id="page-kuis" class="page">
+  <!-- ── PILIH MATKUL ── -->
+  <div id="kuis-select-view">
+    <div class="page-header"><h1>Kuis</h1><p>Pilih mata kuliah untuk memulai kuis</p></div>
+    <div class="kuis-matkul-grid">
+      <div class="kuis-matkul-btn" onclick="startKuis('perilaku')"><div class="kmb-day day-senin">Senin</div><div class="kmb-name">Perilaku Konsumen</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('investasi')"><div class="kmb-day day-senin">Senin</div><div class="kmb-name">Manajemen Investasi &amp; Portofolio</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('pkn')"><div class="kmb-day day-selasa">Selasa</div><div class="kmb-name">Pendidikan Kewarganegaraan</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('kepemimpinan')"><div class="kmb-day day-selasa">Selasa</div><div class="kmb-name">Kepemimpinan</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('pelayanan')"><div class="kmb-day day-selasa">Selasa</div><div class="kmb-name">Pelayanan Prima</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('english')"><div class="kmb-day day-rabu">Rabu</div><div class="kmb-name">English for Business Correspondence</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('simulasi')"><div class="kmb-day day-rabu">Rabu</div><div class="kmb-name">Simulasi Bisnis</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('appkom')"><div class="kmb-day day-kamis">Kamis</div><div class="kmb-name">Aplikasi Komputer Bisnis</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('kebijakan')"><div class="kmb-day day-jumat">Jumat</div><div class="kmb-name">Kebijakan Bisnis</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('sim')"><div class="kmb-day day-jumat">Jumat</div><div class="kmb-name">Sistem Informasi Manajemen</div></div>
+    </div>
+  </div>
+
+  <!-- ── IFRAME KUIS (tampil setelah matkul dipilih) ── -->
+  <div id="kuis-iframe-view" style="display:none">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <button class="btn-outline" style="padding:7px 14px;font-size:13px" onclick="backToKuisSelect()">← Kembali</button>
+      <div>
+        <div style="font-size:16px;font-weight:700" id="kuis-iframe-title">—</div>
+        <div style="font-size:12px;color:var(--text2)">Kuis via Google Apps Script</div>
+      </div>
+    </div>
+
+    <!-- Pesan jika URL belum diisi -->
+    <div id="kuis-no-url" style="display:none">
+      <div class="card" style="text-align:center;padding:40px">
+        <div style="font-size:40px;margin-bottom:12px">🔗</div>
+        <div style="font-size:16px;font-weight:600;margin-bottom:8px">URL Kuis Belum Dikonfigurasi</div>
+        <div style="font-size:13px;color:var(--text2);max-width:420px;margin:0 auto 20px;line-height:1.7">
+          Deploy Google Apps Script terlebih dahulu, lalu masukkan URL Web App ke variabel <code style="background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px">KUIS_URLS</code> di file <code style="background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px">index.html</code>.
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:left;font-size:12px;font-family:var(--mono);color:var(--text2);max-width:500px;margin:0 auto">
+          var KUIS_URLS = {<br>
+          &nbsp;&nbsp;perilaku : "https://script.google.com/macros/s/<span style="color:var(--amber)">PASTE_URL_DISINI</span>/exec",<br>
+          &nbsp;&nbsp;investasi: "https://script.google.com/macros/s/<span style="color:var(--amber)">PASTE_URL_DISINI</span>/exec",<br>
+          &nbsp;&nbsp;...<br>
+          };
+        </div>
+      </div>
+    </div>
+
+    <!-- iframe kuis -->
+    <div id="kuis-iframe-wrap" style="display:none">
+      <iframe
+        id="kuis-iframe"
+        src=""
+        style="width:100%;height:750px;border:none;border-radius:var(--radius);background:var(--bg3)"
+        allow="fullscreen"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- UJIAN -->
+<div id="page-ujian" class="page">
+  <div class="page-header"><h1>Ujian</h1><p>Jadwal dan informasi UTS &amp; UAS kelas 3E</p></div>
+  <div class="ujian-tabs">
+    <button class="ujian-tab active" onclick="switchUjian('uts',this)">📄 UTS</button>
+    <button class="ujian-tab" onclick="switchUjian('uas',this)">📄 UAS</button>
+  </div>
+  <div id="ujian-uts" class="ujian-content active">
+    <div class="card">
+      <div class="card-title">📄 Ujian Tengah Semester (UTS)</div>
+      <div class="ujian-row"><div class="ujian-num">01</div><div class="ujian-matkul">Perilaku Konsumen</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">02</div><div class="ujian-matkul">Manajemen Investasi &amp; Portofolio</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">03</div><div class="ujian-matkul">Pendidikan Kewarganegaraan</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">04</div><div class="ujian-matkul">Kepemimpinan</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">05</div><div class="ujian-matkul">Pelayanan Prima</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">06</div><div class="ujian-matkul">English for Business Correspondence</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">07</div><div class="ujian-matkul">Simulasi Bisnis</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">08</div><div class="ujian-matkul">Aplikasi Komputer Bisnis</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">09</div><div class="ujian-matkul">Kebijakan Bisnis</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">10</div><div class="ujian-matkul">Sistem Informasi Manajemen</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+    </div>
+  </div>
+  <div id="ujian-uas" class="ujian-content">
+    <div class="card">
+      <div class="card-title">📄 Ujian Akhir Semester (UAS)</div>
+      <div class="ujian-row"><div class="ujian-num">01</div><div class="ujian-matkul">Perilaku Konsumen</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">02</div><div class="ujian-matkul">Manajemen Investasi &amp; Portofolio</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">03</div><div class="ujian-matkul">Pendidikan Kewarganegaraan</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">04</div><div class="ujian-matkul">Kepemimpinan</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">05</div><div class="ujian-matkul">Pelayanan Prima</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">06</div><div class="ujian-matkul">English for Business Correspondence</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">07</div><div class="ujian-matkul">Simulasi Bisnis</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">08</div><div class="ujian-matkul">Aplikasi Komputer Bisnis</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">09</div><div class="ujian-matkul">Kebijakan Bisnis</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+      <div class="ujian-row"><div class="ujian-num">10</div><div class="ujian-matkul">Sistem Informasi Manajemen</div><div class="ujian-meta">TBD</div><div class="ujian-status status-belum">Belum</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- REKAP -->
+<div id="page-rekap" class="page">
+  <div class="page-header"><h1>Rekap Nilai</h1><p>Rata-rata nilai kuis per mata kuliah</p></div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📊 Rata-rata per matkul</div>
+      <div class="rekap-bar-list" id="rekap-bars"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Detail nilai</div>
+      <table class="schedule-table"><thead><tr><th>Mata Kuliah</th><th>Kuis</th><th>UTS</th><th>UAS</th></tr></thead>
+      <tbody id="rekap-table-body"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- SERTIFIKASI -->
+<div id="page-sertifikasi" class="page">
+  <div class="page-header"><h1>Sertifikasi</h1><p>Kelola sertifikat kompetensi dan prestasi</p></div>
+  <div style="margin-bottom:20px"><button class="btn-primary" onclick="openModal('modal-sert')">+ Tambah Sertifikasi</button></div>
+  <div class="card">
+    <table class="sert-table"><thead><tr><th>#</th><th>Nama Sertifikasi</th><th>Lembaga</th><th>Tanggal</th><th>Level</th><th>Aksi</th></tr></thead>
+    <tbody id="sert-body"></tbody></table>
+  </div>
+</div>
+
+<!-- MATERI -->
+<div id="page-materi" class="page">
+  <div class="page-header"><h1>Materi &amp; Modul</h1><p>Kumpulan materi kuliah per mata kuliah</p></div>
+  <div class="section-grid">
+    <div class="matkul-card"><div class="mc-day day-senin">Senin</div><div class="mc-name">Perilaku Konsumen</div><div class="mc-time">📄 Belum ada materi</div></div>
+    <div class="matkul-card"><div class="mc-day day-senin">Senin</div><div class="mc-name">Manajemen Investasi</div><div class="mc-time">📄 Belum ada materi</div></div>
+    <div class="matkul-card"><div class="mc-day day-selasa">Selasa</div><div class="mc-name">PKn</div><div class="mc-time">📄 Belum ada materi</div></div>
+    <div class="matkul-card"><div class="mc-day day-selasa">Selasa</div><div class="mc-name">Kepemimpinan</div><div class="mc-time">📄 Belum ada materi</div></div>
+    <div class="matkul-card"><div class="mc-day day-selasa">Selasa</div><div class="mc-name">Pelayanan Prima</div><div class="mc-time">📄 Belum ada materi</div></div>
+    <div class="matkul-card"><div class="mc-day day-rabu">Rabu</div><div class="mc-name">English for Business</div><div class="mc-time">📄 Belum ada materi</div></div>
+    <div class="matkul-card"><div class="mc-day day-rabu">Rabu</div><div class="mc-name">Simulasi Bisnis</div><div class="mc-time">📄 Belum ada materi</div></div>
+    <div class="matkul-card"><div class="mc-day day-kamis">Kamis</div><div class="mc-name">Aplikasi Komputer Bisnis</div><div class="mc-time">📄 Belum ada materi</div></div>
+    <div class="matkul-card"><div class="mc-day day-jumat">Jumat</div><div class="mc-name">Kebijakan Bisnis</div><div class="mc-time">📄 Belum ada materi</div></div>
+    <div class="matkul-card"><div class="mc-day day-jumat">Jumat</div><div class="mc-name">SIM</div><div class="mc-time">📄 Belum ada materi</div></div>
+  </div>
+</div>
+
+<!-- PENGUMUMAN -->
+<div id="page-pengumuman" class="page">
+  <div class="page-header"><h1>Pengumuman</h1><p>Informasi penting kelas 3E</p></div>
+  <div class="announce-list">
+    <div class="announce-item"><div class="announce-title">Excellent Class Portal — Live 🚀</div><div class="announce-body">Web portal resmi kelas 3E aktif. Gunakan untuk jadwal, tugas, kuis, dan informasi akademik.</div><div class="announce-meta">Admin · Hari ini</div></div>
+    <div class="announce-item warn"><div class="announce-title">Reminder: Input data sertifikasi</div><div class="announce-body">Segera input sertifikat yang dimiliki ke menu Sertifikasi untuk portofolio akademik.</div><div class="announce-meta">Ketua Kelas · Hari ini</div></div>
+    <div class="announce-item info"><div class="announce-title">Jadwal UTS segera diumumkan</div><div class="announce-body">Pantau terus halaman Ujian untuk informasi jadwal UTS terbaru.</div><div class="announce-meta">Admin · Hari ini</div></div>
+  </div>
+</div>
+
+<!-- LEADERBOARD -->
+<div id="page-leaderboard" class="page">
+  <div class="page-header"><h1>Leaderboard</h1><p>Rangking nilai kuis terbaik kelas 3E semester ini</p></div>
+  <div class="card"><div class="card-title">🏆 Top peserta kuis</div><div class="lb-list" id="full-leaderboard"></div></div>
+</div>
+
+</main>
+
+<!-- MODALS -->
+<div id="modal-tugas" class="modal-overlay" onclick="closeOnOverlay(event,'modal-tugas')">
+  <div class="modal">
+    <h3>➕ Tambah Tugas</h3>
+    <div class="modal-form">
+      <div class="form-group"><label class="form-label">Nama Tugas</label><input class="form-input" id="tugas-name" placeholder="Contoh: Resume Bab 3..."/></div>
+      <div class="form-group"><label class="form-label">Mata Kuliah</label>
+        <select class="form-input" id="tugas-matkul">
+          <option>Perilaku Konsumen</option><option>Manajemen Investasi</option><option>PKn</option>
+          <option>Kepemimpinan</option><option>Pelayanan Prima</option><option>English</option>
+          <option>Simulasi Bisnis</option><option>Aplikasi Komputer</option><option>Kebijakan Bisnis</option><option>SIM</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Deadline</label><input class="form-input" id="tugas-deadline" type="date"/></div>
+    </div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn-outline" onclick="closeModal('modal-tugas')">Batal</button>
+      <button class="btn-primary" onclick="addTugas()">Simpan</button>
+    </div>
+  </div>
+</div>
+
 <div id="modal-sert" class="modal-overlay" onclick="closeOnOverlay(event,'modal-sert')">
   <div class="modal">
     <h3 id="sert-modal-title">🏅 Tambah Sertifikasi</h3>
     <div class="modal-form">
-      <div class="form-group">
-        <label class="form-label">Nama Sertifikasi</label>
-        <input class="form-input" id="sert-nama" placeholder="Contoh: Sertifikat Kompetensi Administrasi" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Lembaga Penerbit</label>
-        <input class="form-input" id="sert-lembaga" placeholder="Contoh: LSP PNUP" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Tanggal</label>
-        <input class="form-input" id="sert-tanggal" type="date" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Level / Kategori</label>
-        <select class="form-input" id="sert-level">
-          <option>Nasional</option>
-          <option>Internasional</option>
-          <option>Internal Kampus</option>
-          <option>Profesi</option>
-          <option>Lainnya</option>
-        </select>
+      <div class="form-group"><label class="form-label">Nama Sertifikasi</label><input class="form-input" id="sert-nama" placeholder="Sertifikat Kompetensi Administrasi"/></div>
+      <div class="form-group"><label class="form-label">Lembaga Penerbit</label><input class="form-input" id="sert-lembaga" placeholder="LSP PNUP"/></div>
+      <div class="form-group"><label class="form-label">Tanggal</label><input class="form-input" id="sert-tanggal" type="date"/></div>
+      <div class="form-group"><label class="form-label">Level</label>
+        <select class="form-input" id="sert-level"><option>Nasional</option><option>Internasional</option><option>Internal Kampus</option><option>Profesi</option><option>Lainnya</option></select>
       </div>
     </div>
     <div class="modal-actions" style="margin-top:16px">
@@ -1249,373 +631,306 @@
   </div>
 </div>
 
-<!-- ══════════ JAVASCRIPT ══════════ -->
 <script>
-/* ── DATA STORAGE ── */
-let tasks = JSON.parse(localStorage.getItem('ec_tasks') || '[]');
-let serts = JSON.parse(localStorage.getItem('ec_serts') || '[]');
-let editSertId = null;
+// ── DATA ──
+const MAHASISWA = [
+  {no:1,nama:"Muh. Farid Wajdi",nim:"45223095"},
+  {no:2,nama:"Muh. Akbar",nim:"45223096"},
+  {no:3,nama:"Herthon Palangda",nim:"45223097"},
+  {no:4,nama:"Anita",nim:"45223098"},
+  {no:5,nama:"Andi Dian Tri Wulandari",nim:"45223099"},
+  {no:6,nama:"Putri Clara Pabuntang",nim:"45223100"},
+  {no:7,nama:"Iren L. Palayukan",nim:"45223101"},
+  {no:8,nama:"Muh. Zulhaj Fatanah",nim:"45223102"},
+  {no:9,nama:"Nur Aisyah Rahmadani A.",nim:"45223103"},
+  {no:10,nama:"Fikri Hilali",nim:"45223104"},
+  {no:11,nama:"Nur Amalia",nim:"45223105"},
+  {no:12,nama:"A. Nurul Ambia Maulina",nim:"45223106"},
+  {no:13,nama:"Angel Arumi Sipayo",nim:"45223107"},
+  {no:14,nama:"Sumayya",nim:"45223108"},
+  {no:15,nama:"Nur Aulia Agustina",nim:"45223109"},
+  {no:16,nama:"Haenrycho Anugrah",nim:"45223110"},
+  {no:17,nama:"A. Aliyah Nailatusy S.",nim:"45223111"},
+  {no:18,nama:"Shintiya Rahma Pratiwi",nim:"45223112"},
+  {no:19,nama:"Sulviana Fahra Arsyad",nim:"45223113"},
+  {no:20,nama:"Nurfauzia Hidayat",nim:"45223114"},
+  {no:21,nama:"Kurniawati Adelia Pamaling",nim:"45223115"},
+  {no:22,nama:"Anisa Ashfiya Zahrawiyya",nim:"45223116"},
+  {no:23,nama:"Amrizal",nim:"45223117"},
+  {no:24,nama:"Daniela Gilang Pratama",nim:"45223118"}
+];
 
-/* ── SCHEDULE DATA ── */
-const SCHEDULE = {
-  1: [ // Senin
-    { name: 'Perilaku Konsumen',               time: '07.30 – 09.10' },
-    { name: 'Manajemen Investasi & Portofolio', time: '09.30 – 11.10' }
-  ],
-  2: [ // Selasa
-    { name: 'Pendidikan Kewarganegaraan', time: '07.30 – 09.10' },
-    { name: 'Kepemimpinan',               time: '09.30 – 11.10' },
-    { name: 'Pelayanan Prima',            time: '13.00 – 14.40' }
-  ],
-  3: [ // Rabu
-    { name: 'English for Business Correspondence', time: '07.30 – 09.10' },
-    { name: 'Simulasi Bisnis',                     time: '09.30 – 12.00' }
-  ],
-  4: [ // Kamis
-    { name: 'Aplikasi Komputer Bisnis', time: '07.30 – 10.00' }
-  ],
-  5: [ // Jumat
-    { name: 'Kebijakan Bisnis',           time: '07.30 – 09.10' },
-    { name: 'Sistem Informasi Manajemen', time: '09.30 – 11.10' }
+const JADWAL = {
+  6: [
+    {hari:"Senin",hariKey:1,nama:"Perilaku Konsumen",waktu:"07.30 – 09.10",ruang:"GSM-202",dosen:"Dr. Mawardi, S.E., M.Si.",sks:3},
+    {hari:"Senin",hariKey:1,nama:"Manajemen Investasi & Portofolio",waktu:"09.30 – 11.10",ruang:"GS-AB.5",dosen:"Dr. Mawardi, S.E., M.Si.",sks:3},
+    {hari:"Selasa",hariKey:2,nama:"Pendidikan Kewarganegaraan",waktu:"07.30 – 09.10",ruang:"GS-AB.1",dosen:"Dr. Ismail Anas, S.Pd., M.Pd.",sks:2},
+    {hari:"Selasa",hariKey:2,nama:"Kepemimpinan",waktu:"09.30 – 11.10",ruang:"GS-AB.2",dosen:"Dr. Ismail Anas, S.Pd., M.Pd.",sks:3},
+    {hari:"Selasa",hariKey:2,nama:"Pelayanan Prima",waktu:"13.00 – 14.40",ruang:"GS-AB.5",dosen:"Tri Wahyu Septyani, S.Tr.Ak., M.A.B.",sks:3},
+    {hari:"Rabu",hariKey:3,nama:"English for Business Correspondence",waktu:"07.30 – 09.10",ruang:"AN-101",dosen:"Prof. Dr. Enny Radjab, M.AB.",sks:2},
+    {hari:"Rabu",hariKey:3,nama:"Simulasi Bisnis",waktu:"09.30 – 12.00",ruang:"AN-239 / Lab.",dosen:"Dian Pane, S.Sos., MAB.",sks:3},
+    {hari:"Kamis",hariKey:4,nama:"Aplikasi Komputer Bisnis",waktu:"07.30 – 10.00",ruang:"PG-208 / Lab. Multimedia",dosen:"Nahiruddin, S.Si., M.Si.",sks:3},
+    {hari:"Jumat",hariKey:5,nama:"Kebijakan Bisnis",waktu:"07.30 – 09.10",ruang:"GS-AB.3",dosen:"Adam Rasid, S.Sos., M.Si.",sks:3},
+    {hari:"Jumat",hariKey:5,nama:"Sistem Informasi Manajemen",waktu:"09.30 – 11.10",ruang:"GSM-317",dosen:"Dr. Jayadi, S.E., M.Si.",sks:3}
   ]
 };
 
-const DAY_NAMES = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-const MONTH_NAMES = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const KUIS_NAMES = {
-  perilaku:'Perilaku Konsumen', investasi:'Manajemen Investasi & Portofolio',
-  pkn:'Pend. Kewarganegaraan', kepemimpinan:'Kepemimpinan',
-  pelayanan:'Pelayanan Prima', english:'English for Business Correspondence',
-  simulasi:'Simulasi Bisnis', appkom:'Aplikasi Komputer Bisnis',
-  kebijakan:'Kebijakan Bisnis', sim:'Sistem Informasi Manajemen'
+const MATKUL_NAMES = {
+  perilaku:"Perilaku Konsumen",investasi:"Manajemen Investasi & Portofolio",
+  pkn:"Pendidikan Kewarganegaraan",kepemimpinan:"Kepemimpinan",
+  pelayanan:"Pelayanan Prima",english:"English for Business Correspondence",
+  simulasi:"Simulasi Bisnis",appkom:"Aplikasi Komputer Bisnis",
+  kebijakan:"Kebijakan Bisnis",sim:"Sistem Informasi Manajemen"
+};
+const DAY_NAMES=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+const MONTH_NAMES=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+let tasks = JSON.parse(localStorage.getItem('ec_tasks')||'[]');
+let serts = JSON.parse(localStorage.getItem('ec_serts')||'[]');
+let editSertId = null;
+let currentFilter = 'all';
+let activeSemester = 6;
+
+// ── SOAL KUIS (Perilaku Konsumen – 15 soal) ──
+const SOAL_BANK = {
+  perilaku: [
+    {q:"Perilaku konsumen adalah studi tentang bagaimana individu, kelompok, dan organisasi...",o:["Memproduksi barang","Memilih, membeli, menggunakan barang/jasa","Mendistribusikan produk","Menentukan harga produk"],a:1},
+    {q:"Model perilaku konsumen yang paling mendasar menunjukkan bahwa keputusan pembelian dipengaruhi oleh...",o:["Hanya faktor internal","Hanya faktor eksternal","Faktor internal dan eksternal","Faktor distribusi saja"],a:2},
+    {q:"Proses pengambilan keputusan konsumen dimulai dari...",o:["Pencarian informasi","Pengenalan kebutuhan","Evaluasi alternatif","Pembelian"],a:1},
+    {q:"Kelompok referensi yang paling kuat pengaruhnya terhadap perilaku konsumen adalah...",o:["Kelompok aspirasi","Kelompok primer (keluarga & teman dekat)","Kelompok sekunder","Kelompok disosiatif"],a:1},
+    {q:"Teori motivasi Maslow menyatakan bahwa kebutuhan manusia tersusun dalam...",o:["Lingkaran kebutuhan","Hierarki kebutuhan","Matriks kebutuhan","Siklus kebutuhan"],a:1},
+    {q:"Persepsi konsumen terhadap suatu produk dibentuk melalui proses...",o:["Pembelian dan penggunaan","Seleksi, organisasi, dan interpretasi stimulus","Iklan dan promosi saja","Harga dan kualitas saja"],a:1},
+    {q:"Ketidaksesuaian kognitif (cognitive dissonance) terjadi...",o:["Sebelum membeli produk","Saat mencari informasi","Setelah melakukan pembelian","Saat mengevaluasi alternatif"],a:2},
+    {q:"Segmentasi pasar berdasarkan gaya hidup konsumen termasuk dalam segmentasi...",o:["Demografis","Geografis","Psikografis","Behavioristis"],a:2},
+    {q:"Faktor budaya yang paling luas pengaruhnya terhadap perilaku konsumen adalah...",o:["Subbudaya","Kelas sosial","Budaya itu sendiri","Kelompok referensi"],a:2},
+    {q:"Loyalitas merek (brand loyalty) yang tinggi menunjukkan bahwa konsumen...",o:["Selalu membandingkan harga","Konsisten membeli merek yang sama","Mudah beralih ke produk lain","Tidak peduli dengan kualitas"],a:1},
+    {q:"Dalam model Howard-Sheth, input stimulus yang berasal dari produk itu sendiri disebut...",o:["Stimulus simbolik","Stimulus sosial","Stimulus signifikan","Stimulus psikologis"],a:2},
+    {q:"Consumer involvement yang tinggi biasanya terjadi saat membeli produk...",o:["Murah dan sering dibeli","Mahal dan jarang dibeli","Kebutuhan sehari-hari","Impulsif"],a:1},
+    {q:"Proses pembelajaran konsumen melalui pengalaman langsung disebut...",o:["Classical conditioning","Operant conditioning","Observational learning","Cognitive learning"],a:1},
+    {q:"Word of mouth (WOM) dianggap efektif karena...",o:["Biayanya murah","Dipercaya lebih dari iklan formal","Jangkauannya luas","Dapat diukur dengan mudah"],a:1},
+    {q:"Analisis RFM dalam perilaku konsumen mengukur...",o:["Rating, Frequency, Money","Recency, Frequency, Monetary","Reach, Frequency, Message","Response, Feedback, Motivation"],a:1}
+  ]
 };
 
-/* ── CLOCK & DATE ── */
-function updateClock() {
-  const now = new Date();
-  const h = String(now.getHours()).padStart(2,'0');
-  const m = String(now.getMinutes()).padStart(2,'0');
-  const s = String(now.getSeconds()).padStart(2,'0');
-  const timeStr = `${h}:${m}:${s}`;
-
-  const el = document.getElementById('live-clock');
-  if (el) el.textContent = timeStr;
-
-  const dashTime = document.getElementById('dash-time');
-  if (dashTime) dashTime.textContent = `${h}:${m}`;
-
-  const dashDate = document.getElementById('dash-date');
-  if (dashDate) {
-    const day = now.getDate();
-    const month = MONTH_NAMES[now.getMonth()];
-    const year = now.getFullYear();
-    dashDate.textContent = `${day} ${month} ${year}`;
-  }
-
-  const dashDay = document.getElementById('dash-dayname');
-  if (dashDay) {
-    const dayName = DAY_NAMES[now.getDay()];
-    const todaySchedule = SCHEDULE[now.getDay()];
-    const info = todaySchedule ? `${dayName} · ${todaySchedule.length} kuliah hari ini` : `${dayName} · Tidak ada kuliah`;
-    dashDay.textContent = info;
-  }
-
-  const greeting = document.getElementById('dash-greeting');
-  if (greeting) {
-    const hr = now.getHours();
-    let g = hr < 11 ? 'Selamat pagi ☀️' : hr < 15 ? 'Selamat siang 🌤️' : hr < 18 ? 'Selamat sore 🌅' : 'Selamat malam 🌙';
-    greeting.textContent = g + ' — Kelas 3E';
-  }
-
-  const todayLabel = document.getElementById('today-label');
-  if (todayLabel) todayLabel.textContent = DAY_NAMES[now.getDay()];
-
-  // Today schedule
-  const tbody = document.getElementById('today-schedule-body');
-  if (tbody) {
-    const today = SCHEDULE[now.getDay()];
-    if (today && today.length) {
-      tbody.innerHTML = today.map(s =>
-        `<tr><td>${s.name}</td><td style="font-family:var(--mono);font-size:12px;color:var(--text2)">${s.time}</td></tr>`
-      ).join('');
-    } else {
-      tbody.innerHTML = `<tr><td colspan="2"><div class="empty-state"><div class="es-icon">😴</div><p>Tidak ada kuliah hari ini</p></div></td></tr>`;
-    }
-  }
+// ── CLOCK ──
+function updateClock(){
+  const now=new Date();
+  const h=String(now.getHours()).padStart(2,'0'),m=String(now.getMinutes()).padStart(2,'0'),s=String(now.getSeconds()).padStart(2,'0');
+  const el=document.getElementById('live-clock');if(el)el.textContent=`${h}:${m}:${s}`;
+  const dt=document.getElementById('dash-time');if(dt)dt.textContent=`${h}:${m}`;
+  const dd=document.getElementById('dash-date');if(dd)dd.textContent=`${now.getDate()} ${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
+  const dn=document.getElementById('dash-dayname');
+  if(dn){const sch=JADWAL[6].filter(j=>j.hariKey===now.getDay());dn.textContent=DAY_NAMES[now.getDay()]+(sch.length?` · ${sch.length} kuliah hari ini`:' · Tidak ada kuliah');}
+  const gr=document.getElementById('dash-greeting');
+  if(gr){const hr=now.getHours();gr.textContent=(hr<11?'Selamat pagi ☀️':hr<15?'Selamat siang 🌤️':hr<18?'Selamat sore 🌅':'Selamat malam 🌙')+' — Kelas 3E';}
+  const tl=document.getElementById('today-label');if(tl)tl.textContent=DAY_NAMES[now.getDay()];
+  const tb=document.getElementById('today-schedule-body');
+  if(tb){const today=JADWAL[6].filter(j=>j.hariKey===now.getDay());
+    tb.innerHTML=today.length?today.map(s=>`<tr><td>${s.nama}</td><td style="font-family:var(--mono);font-size:11px;color:var(--text2)">${s.waktu}</td><td style="font-size:11px;color:var(--text3)">${s.ruang}</td></tr>`).join(''):`<tr><td colspan="3"><div class="empty-state"><div class="es-icon">😴</div><p>Tidak ada kuliah hari ini</p></div></td></tr>`;}
 }
-setInterval(updateClock, 1000);
-updateClock();
+setInterval(updateClock,1000);updateClock();
 
-/* ── NAVIGATION ── */
-function navigate(page) {
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Show target
-  const target = document.getElementById(`page-${page}`);
-  if (target) target.classList.add('active');
-
-  // Update sidebar active state
-  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-
-  // Render dynamic content
-  if (page === 'tugas') renderTasks();
-  if (page === 'sertifikasi') renderSerts();
-  if (page === 'dashboard') { updateDashStats(); }
-
-  // Close mobile sidebar
-  if (window.innerWidth <= 768) {
-    document.getElementById('sidebar').classList.remove('open');
-  }
+// ── NAVIGATE ──
+function navigate(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const t=document.getElementById(`page-${page}`);if(t)t.classList.add('active');
+  if(page==='tugas')renderTasks();
+  if(page==='sertifikasi')renderSerts();
+  if(page==='jadwal')renderJadwal(activeSemester);
+  if(page==='rekap')renderRekap();
+  if(page==='leaderboard')renderLeaderboard();
+  if(page==='dashboard'){updateDashStats();renderDashLeaderboard();}
+  if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
 }
 
-function navigateSub(page, sub) {
-  if (page === 'kuis') {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-kuis').classList.add('active');
-    const name = KUIS_NAMES[sub] || sub;
-    document.getElementById('kuis-title').textContent = 'Kuis — ' + name;
-    document.getElementById('kuis-desc').textContent = 'Kuis untuk mata kuliah ' + name;
-    document.getElementById('kuis-matkul-name').textContent = name;
-  } else if (page === 'ujian') {
-    navigate('ujian');
-    setTimeout(() => switchUjian(sub, document.querySelector(`.ujian-tab:${sub === 'uts' ? 'first-child' : 'last-child'}`)), 50);
-  }
+// ── JADWAL ──
+function filterSemester(sem,chip){
+  if(chip.classList.contains('disabled'))return;
+  activeSemester=sem;
+  document.querySelectorAll('.semester-filter .chip').forEach(c=>c.classList.remove('selected'));
+  chip.classList.add('selected');
+  renderJadwal(sem);
+}
+function renderJadwal(sem){
+  const data=JADWAL[sem]||[];
+  const grid=document.getElementById('jadwal-grid');
+  const tbody=document.getElementById('jadwal-table-body');
+  if(!grid||!tbody)return;
+  const dayClass={1:'day-senin',2:'day-selasa',3:'day-rabu',4:'day-kamis',5:'day-jumat'};
+  if(!data.length){grid.innerHTML='<div class="empty-state"><div class="es-icon">📅</div><p>Jadwal semester ini belum tersedia</p></div>';tbody.innerHTML='';return;}
+  grid.innerHTML=data.map(j=>`<div class="matkul-card"><div class="mc-day ${dayClass[j.hariKey]||''}">${j.hari}</div><div class="mc-name">${j.nama}</div><div class="mc-time">${j.waktu}</div><div class="mc-room">📍 ${j.ruang}</div><div class="mc-dosen">👤 ${j.dosen}</div><span class="semester-badge">Smt ${sem}</span></div>`).join('');
+  tbody.innerHTML=data.map(j=>`<tr><td><span class="day-badge ${dayClass[j.hariKey]||''}">${j.hari}</span></td><td>${j.nama}</td><td style="font-family:var(--mono);font-size:12px">${j.waktu}</td><td style="font-size:12px">${j.ruang}</td><td style="font-size:11px;color:var(--text2)">${j.dosen}</td><td style="font-family:var(--mono);font-size:12px;text-align:center">${j.sks}</td></tr>`).join('');
 }
 
-function switchUjian(which, btn) {
-  document.querySelectorAll('.ujian-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.ujian-content').forEach(c => c.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  const el = document.getElementById(`ujian-${which}`);
-  if (el) el.classList.add('active');
+// ── SIDEBAR TOGGLE ──
+function toggleSub(id,el){const sub=document.getElementById(id);const o=sub.classList.toggle('open');el.classList.toggle('open',o);}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
+
+// ── MODAL ──
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');editSertId=null;document.getElementById('sert-modal-title').textContent='🏅 Tambah Sertifikasi';}
+function closeOnOverlay(e,id){if(e.target.id===id)closeModal(id);}
+
+// ── UJIAN ──
+function switchUjian(which,btn){
+  document.querySelectorAll('.ujian-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ujian-content').forEach(c=>c.classList.remove('active'));
+  if(btn)btn.classList.add('active'); else document.querySelector(`.ujian-tab:${which==='uts'?'first':'last'}-child`).classList.add('active');
+  const el=document.getElementById(`ujian-${which}`);if(el)el.classList.add('active');
 }
 
-/* ── SIDEBAR TOGGLE ── */
-function toggleSub(id, el) {
-  const sub = document.getElementById(id);
-  const isOpen = sub.classList.toggle('open');
-  el.classList.toggle('open', isOpen);
+// ── TUGAS ──
+function addTugas(){
+  const name=document.getElementById('tugas-name').value.trim();
+  const matkul=document.getElementById('tugas-matkul').value;
+  const deadline=document.getElementById('tugas-deadline').value;
+  if(!name){alert('Nama tugas tidak boleh kosong!');return;}
+  tasks.push({id:Date.now(),name,matkul,deadline,done:false});
+  saveTasks();closeModal('modal-tugas');document.getElementById('tugas-name').value='';renderTasks();updateDashStats();
+}
+function toggleTask(id){const t=tasks.find(t=>t.id===id);if(t){t.done=!t.done;saveTasks();renderTasks();updateDashStats();}}
+function deleteTask(id){tasks=tasks.filter(t=>t.id!==id);saveTasks();renderTasks();updateDashStats();}
+function saveTasks(){localStorage.setItem('ec_tasks',JSON.stringify(tasks));}
+function filterTugas(f,chip){currentFilter=f;document.querySelectorAll('#tugas-filter-chips .chip').forEach(c=>c.classList.remove('selected'));if(chip)chip.classList.add('selected');renderTasks();}
+function dlClass(dl){if(!dl)return'ok';const d=(new Date(dl)-new Date())/86400000;return d<0||d<=3?'urgent':d<=7?'soon':'ok';}
+function fmtDate(d){if(!d)return'';const dt=new Date(d+'T00:00:00');return`${dt.getDate()} ${MONTH_NAMES[dt.getMonth()].slice(0,3)}`;}
+function renderTasks(){
+  const list=document.getElementById('main-task-list');if(!list)return;
+  let f=currentFilter==='all'?tasks:tasks.filter(t=>t.matkul===currentFilter);
+  if(!f.length){list.innerHTML='<div class="empty-state"><div class="es-icon">✅</div><p>Belum ada tugas. Tambahkan!</p></div>';return;}
+  list.innerHTML=f.map(t=>`<div class="task-item${t.done?' done':''}"><div class="task-check${t.done?' done':''}" onclick="toggleTask(${t.id})"></div><div style="flex:1"><div class="task-name">${t.name}</div><div class="task-meta">${t.matkul}</div></div>${t.deadline?`<div class="task-deadline ${dlClass(t.deadline)}">${fmtDate(t.deadline)}</div>`:''}<div class="btn-icon delete" onclick="deleteTask(${t.id})">🗑</div></div>`).join('');
 }
 
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
+// ── SERTIFIKASI ──
+function saveSert(){
+  const nama=document.getElementById('sert-nama').value.trim();
+  const lembaga=document.getElementById('sert-lembaga').value.trim();
+  const tanggal=document.getElementById('sert-tanggal').value;
+  const level=document.getElementById('sert-level').value;
+  if(!nama){alert('Nama tidak boleh kosong!');return;}
+  if(editSertId){const s=serts.find(s=>s.id===editSertId);if(s)Object.assign(s,{nama,lembaga,tanggal,level});}
+  else serts.push({id:Date.now(),nama,lembaga,tanggal,level});
+  localStorage.setItem('ec_serts',JSON.stringify(serts));
+  closeModal('modal-sert');['sert-nama','sert-lembaga','sert-tanggal'].forEach(i=>document.getElementById(i).value='');
+  renderSerts();updateDashStats();
 }
-
-/* ── MODAL ── */
-function openModal(id) {
-  document.getElementById(id).classList.add('open');
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  editSertId = null;
-  document.getElementById('sert-modal-title').textContent = '🏅 Tambah Sertifikasi';
-}
-function closeOnOverlay(e, id) {
-  if (e.target.id === id) closeModal(id);
-}
-
-/* ── TUGAS CRUD ── */
-function addTugas() {
-  const name = document.getElementById('tugas-name').value.trim();
-  const matkul = document.getElementById('tugas-matkul').value;
-  const deadline = document.getElementById('tugas-deadline').value;
-  if (!name) { alert('Nama tugas tidak boleh kosong!'); return; }
-  tasks.push({ id: Date.now(), name, matkul, deadline, done: false });
-  saveTasks();
-  closeModal('modal-tugas');
-  document.getElementById('tugas-name').value = '';
-  renderTasks();
-  updateDashStats();
-}
-
-function toggleTask(id) {
-  const t = tasks.find(t => t.id === id);
-  if (t) { t.done = !t.done; saveTasks(); renderTasks(); updateDashStats(); }
-}
-
-function deleteTask(id) {
-  tasks = tasks.filter(t => t.id !== id);
-  saveTasks(); renderTasks(); updateDashStats();
-}
-
-function saveTasks() {
-  localStorage.setItem('ec_tasks', JSON.stringify(tasks));
-}
-
-let currentFilter = 'all';
-function filterTugas(filter, chip) {
-  currentFilter = filter;
-  document.querySelectorAll('#tugas-filter-chips .chip').forEach(c => c.classList.remove('selected'));
-  if (chip) chip.classList.add('selected');
-  renderTasks();
-}
-
-function renderTasks() {
-  const list = document.getElementById('main-task-list');
-  if (!list) return;
-  let filtered = currentFilter === 'all' ? tasks : tasks.filter(t => t.matkul === currentFilter);
-  if (!filtered.length) {
-    list.innerHTML = '<div class="empty-state"><div class="es-icon">✅</div><p>Belum ada tugas. Tambahkan sekarang!</p></div>';
-    return;
-  }
-  list.innerHTML = filtered.map(t => {
-    const dl = deadlineClass(t.deadline);
-    return `<div class="task-item${t.done ? ' done' : ''}">
-      <div class="task-check${t.done ? ' done' : ''}" onclick="toggleTask(${t.id})"></div>
-      <div style="flex:1">
-        <div class="task-name">${t.name}</div>
-        <div class="task-meta">${t.matkul}</div>
-      </div>
-      ${t.deadline ? `<div class="task-deadline ${dl}">${formatDate(t.deadline)}</div>` : ''}
-      <div class="btn-icon delete" onclick="deleteTask(${t.id})" title="Hapus">🗑</div>
-    </div>`;
-  }).join('');
-}
-
-function deadlineClass(dl) {
-  if (!dl) return 'ok';
-  const diff = (new Date(dl) - new Date()) / 86400000;
-  if (diff < 0) return 'urgent';
-  if (diff <= 3) return 'urgent';
-  if (diff <= 7) return 'soon';
-  return 'ok';
-}
-
-function formatDate(d) {
-  if (!d) return '';
-  const dt = new Date(d + 'T00:00:00');
-  return `${dt.getDate()} ${MONTH_NAMES[dt.getMonth()].slice(0,3)}`;
-}
-
-/* ── SERTIFIKASI CRUD ── */
-function saveSert() {
-  const nama = document.getElementById('sert-nama').value.trim();
-  const lembaga = document.getElementById('sert-lembaga').value.trim();
-  const tanggal = document.getElementById('sert-tanggal').value;
-  const level = document.getElementById('sert-level').value;
-  if (!nama) { alert('Nama sertifikasi tidak boleh kosong!'); return; }
-
-  if (editSertId) {
-    const s = serts.find(s => s.id === editSertId);
-    if (s) Object.assign(s, { nama, lembaga, tanggal, level });
-  } else {
-    serts.push({ id: Date.now(), nama, lembaga, tanggal, level });
-  }
-  localStorage.setItem('ec_serts', JSON.stringify(serts));
-  closeModal('modal-sert');
-  document.getElementById('sert-nama').value = '';
-  document.getElementById('sert-lembaga').value = '';
-  document.getElementById('sert-tanggal').value = '';
-  renderSerts(); updateDashStats();
-}
-
-function editSert(id) {
-  const s = serts.find(s => s.id === id);
-  if (!s) return;
-  editSertId = id;
-  document.getElementById('sert-nama').value = s.nama;
-  document.getElementById('sert-lembaga').value = s.lembaga;
-  document.getElementById('sert-tanggal').value = s.tanggal;
-  document.getElementById('sert-level').value = s.level;
-  document.getElementById('sert-modal-title').textContent = '✏️ Edit Sertifikasi';
-  openModal('modal-sert');
-}
-
-function deleteSert(id) {
-  if (!confirm('Hapus sertifikasi ini?')) return;
-  serts = serts.filter(s => s.id !== id);
-  localStorage.setItem('ec_serts', JSON.stringify(serts));
-  renderSerts(); updateDashStats();
-}
-
-function printSert(id) {
-  const s = serts.find(s => s.id === id);
-  if (!s) return;
-  const win = window.open('', '_blank');
-  win.document.write(`
-    <!DOCTYPE html><html><head><title>Sertifikasi — ${s.nama}</title>
-    <style>
-      body { font-family: 'Segoe UI', sans-serif; margin: 60px; background: #fff; color: #111; }
-      .cert-border { border: 6px double #7c6cfc; padding: 40px; border-radius: 12px; text-align: center; }
-      h1 { font-size: 28px; color: #7c6cfc; margin-bottom: 6px; }
-      .cert-name { font-size: 22px; font-weight: 700; margin: 24px 0 6px; }
-      .cert-org  { font-size: 16px; color: #555; }
-      .cert-date { margin-top: 20px; font-size: 14px; color: #777; }
-      .cert-level{ display:inline-block;margin-top:12px;padding:4px 16px;background:#ede9fe;color:#5b21b6;border-radius:20px;font-size:13px;font-weight:600; }
-      .footer    { margin-top: 40px; font-size: 12px; color: #aaa; }
-    </style></head>
-    <body>
-    <div class="cert-border">
-      <h1>🏅 Excellent Class</h1>
-      <p style="color:#888;font-size:14px">3E — D-4 Administrasi Bisnis · PNUP</p>
-      <hr style="margin:24px 0;border-color:#ede9fe"/>
-      <p style="font-size:16px">Dengan bangga menyatakan bahwa:</p>
-      <div class="cert-name">${s.nama}</div>
-      <div class="cert-org">Diterbitkan oleh: ${s.lembaga || '—'}</div>
-      <div class="cert-level">${s.level}</div>
-      <div class="cert-date">Tanggal: ${s.tanggal ? formatDate(s.tanggal) : '—'}</div>
-      <div class="footer">Dicetak dari Excellent Class Portal · excellent-class.github.io</div>
-    </div>
-    <script>window.onload=()=>window.print()<\/script>
-    </body></html>`);
+function editSert(id){const s=serts.find(s=>s.id===id);if(!s)return;editSertId=id;document.getElementById('sert-nama').value=s.nama;document.getElementById('sert-lembaga').value=s.lembaga;document.getElementById('sert-tanggal').value=s.tanggal;document.getElementById('sert-level').value=s.level;document.getElementById('sert-modal-title').textContent='✏️ Edit Sertifikasi';openModal('modal-sert');}
+function deleteSert(id){if(!confirm('Hapus sertifikasi ini?'))return;serts=serts.filter(s=>s.id!==id);localStorage.setItem('ec_serts',JSON.stringify(serts));renderSerts();updateDashStats();}
+function printSert(id){
+  const s=serts.find(s=>s.id===id);if(!s)return;
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>${s.nama}</title><style>body{font-family:'Segoe UI',sans-serif;margin:60px;background:#fff;color:#111}.cert{border:6px double #7c6cfc;padding:40px;border-radius:12px;text-align:center}h1{font-size:26px;color:#7c6cfc}.cn{font-size:22px;font-weight:700;margin:20px 0 6px}.cl{font-size:15px;color:#555}.cd{margin-top:16px;font-size:13px;color:#777}.cv{display:inline-block;margin-top:10px;padding:4px 14px;background:#ede9fe;color:#5b21b6;border-radius:20px;font-size:12px;font-weight:600}.ft{margin-top:36px;font-size:11px;color:#aaa}</style></head><body><div class="cert"><h1>🏅 Excellent Class</h1><p style="color:#888;font-size:13px">3E — D-4 Administrasi Bisnis · PNUP</p><hr style="margin:20px 0;border-color:#ede9fe"/><p>Dengan bangga menyatakan bahwa:</p><div class="cn">${s.nama}</div><div class="cl">Diterbitkan oleh: ${s.lembaga||'—'}</div><div class="cv">${s.level}</div><div class="cd">Tanggal: ${s.tanggal?fmtDate(s.tanggal):'—'}</div><div class="ft">Dicetak dari Excellent Class Portal</div></div><script>window.onload=()=>window.print()<\/script></body></html>`);
   win.document.close();
 }
-
-function renderSerts() {
-  const tbody = document.getElementById('sert-body');
-  if (!tbody) return;
-  if (!serts.length) {
-    tbody.innerHTML = '<tr id="sert-empty"><td colspan="6"><div class="empty-state"><div class="es-icon">🏅</div><p>Belum ada sertifikasi. Tambahkan sekarang!</p></div></td></tr>';
-    return;
-  }
-  tbody.innerHTML = serts.map((s, i) => `
-    <tr>
-      <td style="color:var(--text3);font-family:var(--mono);font-size:12px">${i+1}</td>
-      <td style="font-weight:500">${s.nama}</td>
-      <td style="color:var(--text2)">${s.lembaga || '—'}</td>
-      <td style="font-family:var(--mono);font-size:12px">${s.tanggal ? formatDate(s.tanggal) : '—'}</td>
-      <td><span style="padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(124,108,252,0.1);color:var(--accent2)">${s.level}</span></td>
-      <td><div class="sert-actions">
-        <div class="btn-icon edit"   onclick="editSert(${s.id})"   title="Edit">✏️</div>
-        <div class="btn-icon print"  onclick="printSert(${s.id})"  title="Cetak PDF">🖨️</div>
-        <div class="btn-icon delete" onclick="deleteSert(${s.id})" title="Hapus">🗑</div>
-      </div></td>
-    </tr>`).join('');
+function renderSerts(){
+  const tbody=document.getElementById('sert-body');if(!tbody)return;
+  if(!serts.length){tbody.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="es-icon">🏅</div><p>Belum ada sertifikasi. Tambahkan!</p></div></td></tr>';return;}
+  tbody.innerHTML=serts.map((s,i)=>`<tr><td style="color:var(--text3);font-family:var(--mono);font-size:12px">${i+1}</td><td style="font-weight:500">${s.nama}</td><td style="color:var(--text2)">${s.lembaga||'—'}</td><td style="font-family:var(--mono);font-size:12px">${s.tanggal?fmtDate(s.tanggal):'—'}</td><td><span style="padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(124,108,252,0.1);color:var(--accent2)">${s.level}</span></td><td><div class="sert-actions"><div class="btn-icon edit" onclick="editSert(${s.id})">✏️</div><div class="btn-icon print" onclick="printSert(${s.id})">🖨️</div><div class="btn-icon delete" onclick="deleteSert(${s.id})">🗑</div></div></td></tr>`).join('');
 }
 
-/* ── DASHBOARD STATS ── */
-function updateDashStats() {
-  const total = tasks.length;
-  const done  = tasks.filter(t => t.done).length;
-  const pending = total - done;
-  const s = document.getElementById('stat-tugas');
-  if (s) s.textContent = total;
-  const ss = document.getElementById('stat-tugas-sub');
-  if (ss) ss.textContent = `${pending} belum selesai`;
-  const se = document.getElementById('stat-sert');
-  if (se) se.textContent = serts.length;
+// ── REKAP ──
+const REKAP_DATA=[
+  {nama:"Perilaku Konsumen",warna:"var(--accent)",kuis:0,uts:0,uas:0},
+  {nama:"Manajemen Investasi",warna:"var(--cyan)",kuis:0,uts:0,uas:0},
+  {nama:"PKn",warna:"var(--green)",kuis:0,uts:0,uas:0},
+  {nama:"Kepemimpinan",warna:"var(--amber)",kuis:0,uts:0,uas:0},
+  {nama:"Pelayanan Prima",warna:"var(--pink)",kuis:0,uts:0,uas:0},
+  {nama:"English for Business",warna:"var(--accent2)",kuis:0,uts:0,uas:0},
+  {nama:"Simulasi Bisnis",warna:"var(--cyan)",kuis:0,uts:0,uas:0},
+  {nama:"Aplikasi Komputer",warna:"var(--green)",kuis:0,uts:0,uas:0},
+  {nama:"Kebijakan Bisnis",warna:"var(--amber)",kuis:0,uts:0,uas:0},
+  {nama:"SIM",warna:"var(--accent)",kuis:0,uts:0,uas:0}
+];
+function renderRekap(){
+  const bars=document.getElementById('rekap-bars');const tbody=document.getElementById('rekap-table-body');
+  if(!bars||!tbody)return;
+  // Load scores from localStorage
+  const scores=JSON.parse(localStorage.getItem('ec_kuis_scores')||'{}');
+  bars.innerHTML=REKAP_DATA.map(r=>{const sc=scores[r.nama]||0;return`<div class="rekap-bar-item"><div class="rekap-bar-header"><span class="rekap-bar-name">${r.nama}</span><span class="rekap-bar-score">${sc||'—'}</span></div><div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:${sc}%;background:${r.warna}"></div></div></div>`;}).join('');
+  tbody.innerHTML=REKAP_DATA.map(r=>{const sc=scores[r.nama]||0;return`<tr><td>${r.nama}</td><td style="font-family:var(--mono);font-size:12px">${sc||'—'}</td><td style="color:var(--text3)">—</td><td style="color:var(--text3)">—</td></tr>`;}).join('');
+}
 
-  // Urgent tasks in dashboard
-  const urgentEl = document.getElementById('urgent-tasks');
-  if (urgentEl) {
-    const urgent = tasks.filter(t => !t.done && deadlineClass(t.deadline) !== 'ok').slice(0, 3);
-    if (!urgent.length) {
-      urgentEl.innerHTML = '<div class="empty-state"><div class="es-icon">✅</div><p>Tidak ada tugas mendesak</p></div>';
-    } else {
-      urgentEl.innerHTML = urgent.map(t => {
-        const dl = deadlineClass(t.deadline);
-        return `<div class="task-item">
-          <div class="task-check" onclick="toggleTask(${t.id})"></div>
-          <div style="flex:1"><div class="task-name">${t.name}</div><div class="task-meta">${t.matkul}</div></div>
-          <div class="task-deadline ${dl}">${formatDate(t.deadline)}</div>
-        </div>`;
-      }).join('');
-    }
+// ── LEADERBOARD ──
+function getLeaderboardData(){
+  const lb=JSON.parse(localStorage.getItem('ec_leaderboard')||'[]');
+  return lb.sort((a,b)=>b.score-a.score).slice(0,10);
+}
+function renderLeaderboard(){
+  const el=document.getElementById('full-leaderboard');if(!el)return;
+  const lb=getLeaderboardData();
+  if(!lb.length){el.innerHTML='<div class="empty-state"><div class="es-icon">🏆</div><p>Belum ada peserta kuis</p></div>';return;}
+  const ranks=['gold','silver','bronze'];
+  el.innerHTML=lb.map((e,i)=>`<div class="lb-item"><div class="lb-rank ${ranks[i]||''}">${i+1}</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--accent),var(--cyan))">${e.nama.split(' ').map(w=>w[0]).slice(0,2).join('')}</div><div style="flex:1"><div class="lb-name">${e.nama}</div><div class="lb-nim">${e.matkul}</div></div><div class="lb-nim" style="margin-right:8px">${e.nim}</div><div class="lb-score">${e.score}</div></div>`).join('');
+}
+function renderDashLeaderboard(){
+  const el=document.getElementById('dash-leaderboard');if(!el)return;
+  const lb=getLeaderboardData().slice(0,5);
+  if(!lb.length){el.innerHTML='<div class="empty-state"><div class="es-icon">🏆</div><p>Belum ada data kuis</p></div>';return;}
+  const ranks=['gold','silver','bronze'];
+  el.innerHTML=lb.map((e,i)=>`<div class="lb-item"><div class="lb-rank ${ranks[i]||''}">${i+1}</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--accent),var(--cyan))">${e.nama.split(' ').map(w=>w[0]).slice(0,2).join('')}</div><div class="lb-name">${e.nama}</div><div class="lb-score">${e.score}</div></div>`).join('');
+}
+
+// ── DASHBOARD STATS ──
+function updateDashStats(){
+  const total=tasks.length,done=tasks.filter(t=>t.done).length;
+  const s=document.getElementById('stat-tugas');if(s)s.textContent=total;
+  const ss=document.getElementById('stat-tugas-sub');if(ss)ss.textContent=`${total-done} belum selesai`;
+  const se=document.getElementById('stat-sert');if(se)se.textContent=serts.length;
+  const uel=document.getElementById('urgent-tasks');
+  if(uel){const u=tasks.filter(t=>!t.done&&dlClass(t.deadline)!=='ok').slice(0,3);
+    uel.innerHTML=u.length?u.map(t=>`<div class="task-item"><div class="task-check" onclick="toggleTask(${t.id})"></div><div style="flex:1"><div class="task-name">${t.name}</div><div class="task-meta">${t.matkul}</div></div><div class="task-deadline ${dlClass(t.deadline)}">${fmtDate(t.deadline)}</div></div>`).join(''):'<div class="empty-state"><div class="es-icon">✅</div><p>Tidak ada tugas mendesak</p></div>';}
+  renderDashLeaderboard();
+}
+
+// ── KUIS IFRAME ENGINE ──
+// ⬇️ PASTE URL Apps Script Web App di sini setelah deploy ⬇️
+const KUIS_URLS = {
+  perilaku    : "", // belum deploy
+  investasi   : "",
+  pkn         : "",
+  kepemimpinan: "",
+  pelayanan   : "",
+  english     : "https://script.google.com/macros/s/AKfycbzWibRkngtcO6qoE2uKdX7vrt6OsKUgs4NT7LRU-ciTxxQLT71xY1XcP5dYYLwdQPuVBQ/exec",
+  simulasi    : "",
+  appkom      : "https://script.google.com/macros/s/AKfycbwxz72HGaFoABOdAO-OjOrOfnTZLUxmV16TTAJ7ThSUvuDAGCbZlTfMgQ0Sz_60qkyV/exec",
+  kebijakan   : "https://script.google.com/macros/s/AKfycbzYcKyX8nCgN827RZtHqCg8TfHuLRPNulYBda3A9YitvvrKr-eC5g1aipt4bVIKQOfp/exec",
+  sim         : ""
+};
+
+function startKuis(key){
+  // Tampilkan page kuis
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-kuis').classList.add('active');
+  // Tampilkan iframe view, sembunyikan select view
+  document.getElementById('kuis-select-view').style.display='none';
+  document.getElementById('kuis-iframe-view').style.display='block';
+  // Set judul
+  const name=MATKUL_NAMES[key]||key;
+  document.getElementById('kuis-iframe-title').textContent='Kuis — '+name;
+  // Cek URL
+  const url=KUIS_URLS[key]||'';
+  const noUrlEl=document.getElementById('kuis-no-url');
+  const wrapEl=document.getElementById('kuis-iframe-wrap');
+  if(!url){
+    noUrlEl.style.display='block';
+    wrapEl.style.display='none';
+  } else {
+    noUrlEl.style.display='none';
+    wrapEl.style.display='block';
+    document.getElementById('kuis-iframe').src=url;
   }
 }
 
-/* ── INIT ── */
-updateDashStats();
+function backToKuisSelect(){
+  document.getElementById('kuis-select-view').style.display='block';
+  document.getElementById('kuis-iframe-view').style.display='none';
+  // Reset iframe src supaya tidak loading di background
+  const iframe=document.getElementById('kuis-iframe');
+  if(iframe)iframe.src='';
+}
+
+// ── INIT ──
+renderJadwal(6);updateDashStats();renderSerts();renderTasks();renderDashLeaderboard();
 </script>
 </body>
 </html>
