@@ -325,6 +325,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     <div class="sub-item" onclick="startKuis('appkom')">Aplikasi Komputer</div>
     <div class="sub-item" onclick="startKuis('kebijakan')">Kebijakan Bisnis</div>
     <div class="sub-item" onclick="startKuis('sim')">SIM</div>
+    <div class="sub-item" onclick="startKuis('pancasila')">Pancasila</div>
   </div>
   <div class="sidebar-item" onclick="toggleSub('sub-ujian',this)"><span class="si-icon">📝</span>Ujian<span class="si-arrow">›</span></div>
   <div class="sub-menu" id="sub-ujian">
@@ -433,7 +434,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 <!-- KUIS -->
 <div id="page-kuis" class="page">
-  <!-- ── PILIH MATKUL ── -->
   <div id="kuis-select-view">
     <div class="page-header"><h1>Kuis</h1><p>Pilih mata kuliah untuk memulai kuis</p></div>
     <div class="kuis-matkul-grid">
@@ -447,10 +447,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       <div class="kuis-matkul-btn" onclick="startKuis('appkom')"><div class="kmb-day day-kamis">Kamis</div><div class="kmb-name">Aplikasi Komputer Bisnis</div></div>
       <div class="kuis-matkul-btn" onclick="startKuis('kebijakan')"><div class="kmb-day day-jumat">Jumat</div><div class="kmb-name">Kebijakan Bisnis</div></div>
       <div class="kuis-matkul-btn" onclick="startKuis('sim')"><div class="kmb-day day-jumat">Jumat</div><div class="kmb-name">Sistem Informasi Manajemen</div></div>
+      <div class="kuis-matkul-btn" onclick="startKuis('pancasila')"><div class="kmb-day day-selasa">Selasa</div><div class="kmb-name">Pancasila</div></div>
     </div>
   </div>
 
-  <!-- ── IFRAME KUIS (tampil setelah matkul dipilih) ── -->
   <div id="kuis-iframe-view" style="display:none">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
       <button class="btn-outline" style="padding:7px 14px;font-size:13px" onclick="backToKuisSelect()">← Kembali</button>
@@ -459,8 +459,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div style="font-size:12px;color:var(--text2)">Kuis via Google Apps Script</div>
       </div>
     </div>
-
-    <!-- Pesan jika URL belum diisi -->
     <div id="kuis-no-url" style="display:none">
       <div class="card" style="text-align:center;padding:40px">
         <div style="font-size:40px;margin-bottom:12px">🔗</div>
@@ -477,16 +475,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         </div>
       </div>
     </div>
-
-    <!-- iframe kuis -->
     <div id="kuis-iframe-wrap" style="display:none">
-      <iframe
-        id="kuis-iframe"
-        src=""
-        style="width:100%;height:750px;border:none;border-radius:var(--radius);background:var(--bg3)"
-        allow="fullscreen"
-        loading="lazy"
-      ></iframe>
+      <iframe id="kuis-iframe" src="" style="width:100%;height:750px;border:none;border-radius:var(--radius);background:var(--bg3)" allow="fullscreen" loading="lazy"></iframe>
     </div>
   </div>
 </div>
@@ -632,7 +622,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 </div>
 
 <script>
-// ── DATA ──
 const MAHASISWA = [
   {no:1,nama:"Muh. Farid Wajdi",nim:"45223095"},
   {no:2,nama:"Muh. Akbar",nim:"45223096"},
@@ -680,7 +669,8 @@ const MATKUL_NAMES = {
   pkn:"Pendidikan Kewarganegaraan",kepemimpinan:"Kepemimpinan",
   pelayanan:"Pelayanan Prima",english:"English for Business Correspondence",
   simulasi:"Simulasi Bisnis",appkom:"Aplikasi Komputer Bisnis",
-  kebijakan:"Kebijakan Bisnis",sim:"Sistem Informasi Manajemen"
+  kebijakan:"Kebijakan Bisnis",sim:"Sistem Informasi Manajemen",
+  pancasila:"Pancasila"
 };
 const DAY_NAMES=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
 const MONTH_NAMES=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -691,7 +681,6 @@ let editSertId = null;
 let currentFilter = 'all';
 let activeSemester = 6;
 
-// ── SOAL KUIS (Perilaku Konsumen – 15 soal) ──
 const SOAL_BANK = {
   perilaku: [
     {q:"Perilaku konsumen adalah studi tentang bagaimana individu, kelompok, dan organisasi...",o:["Memproduksi barang","Memilih, membeli, menggunakan barang/jasa","Mendistribusikan produk","Menentukan harga produk"],a:1},
@@ -712,7 +701,6 @@ const SOAL_BANK = {
   ]
 };
 
-// ── CLOCK ──
 function updateClock(){
   const now=new Date();
   const h=String(now.getHours()).padStart(2,'0'),m=String(now.getMinutes()).padStart(2,'0'),s=String(now.getSeconds()).padStart(2,'0');
@@ -730,7 +718,6 @@ function updateClock(){
 }
 setInterval(updateClock,1000);updateClock();
 
-// ── NAVIGATE ──
 function navigate(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const t=document.getElementById(`page-${page}`);if(t)t.classList.add('active');
@@ -743,7 +730,6 @@ function navigate(page){
   if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
 }
 
-// ── JADWAL ──
 function filterSemester(sem,chip){
   if(chip.classList.contains('disabled'))return;
   activeSemester=sem;
@@ -762,16 +748,12 @@ function renderJadwal(sem){
   tbody.innerHTML=data.map(j=>`<tr><td><span class="day-badge ${dayClass[j.hariKey]||''}">${j.hari}</span></td><td>${j.nama}</td><td style="font-family:var(--mono);font-size:12px">${j.waktu}</td><td style="font-size:12px">${j.ruang}</td><td style="font-size:11px;color:var(--text2)">${j.dosen}</td><td style="font-family:var(--mono);font-size:12px;text-align:center">${j.sks}</td></tr>`).join('');
 }
 
-// ── SIDEBAR TOGGLE ──
 function toggleSub(id,el){const sub=document.getElementById(id);const o=sub.classList.toggle('open');el.classList.toggle('open',o);}
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
-
-// ── MODAL ──
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');editSertId=null;document.getElementById('sert-modal-title').textContent='🏅 Tambah Sertifikasi';}
 function closeOnOverlay(e,id){if(e.target.id===id)closeModal(id);}
 
-// ── UJIAN ──
 function switchUjian(which,btn){
   document.querySelectorAll('.ujian-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.ujian-content').forEach(c=>c.classList.remove('active'));
@@ -779,7 +761,6 @@ function switchUjian(which,btn){
   const el=document.getElementById(`ujian-${which}`);if(el)el.classList.add('active');
 }
 
-// ── TUGAS ──
 function addTugas(){
   const name=document.getElementById('tugas-name').value.trim();
   const matkul=document.getElementById('tugas-matkul').value;
@@ -801,7 +782,6 @@ function renderTasks(){
   list.innerHTML=f.map(t=>`<div class="task-item${t.done?' done':''}"><div class="task-check${t.done?' done':''}" onclick="toggleTask(${t.id})"></div><div style="flex:1"><div class="task-name">${t.name}</div><div class="task-meta">${t.matkul}</div></div>${t.deadline?`<div class="task-deadline ${dlClass(t.deadline)}">${fmtDate(t.deadline)}</div>`:''}<div class="btn-icon delete" onclick="deleteTask(${t.id})">🗑</div></div>`).join('');
 }
 
-// ── SERTIFIKASI ──
 function saveSert(){
   const nama=document.getElementById('sert-nama').value.trim();
   const lembaga=document.getElementById('sert-lembaga').value.trim();
@@ -828,7 +808,6 @@ function renderSerts(){
   tbody.innerHTML=serts.map((s,i)=>`<tr><td style="color:var(--text3);font-family:var(--mono);font-size:12px">${i+1}</td><td style="font-weight:500">${s.nama}</td><td style="color:var(--text2)">${s.lembaga||'—'}</td><td style="font-family:var(--mono);font-size:12px">${s.tanggal?fmtDate(s.tanggal):'—'}</td><td><span style="padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(124,108,252,0.1);color:var(--accent2)">${s.level}</span></td><td><div class="sert-actions"><div class="btn-icon edit" onclick="editSert(${s.id})">✏️</div><div class="btn-icon print" onclick="printSert(${s.id})">🖨️</div><div class="btn-icon delete" onclick="deleteSert(${s.id})">🗑</div></div></td></tr>`).join('');
 }
 
-// ── REKAP ──
 const REKAP_DATA=[
   {nama:"Perilaku Konsumen",warna:"var(--accent)",kuis:0,uts:0,uas:0},
   {nama:"Manajemen Investasi",warna:"var(--cyan)",kuis:0,uts:0,uas:0},
@@ -844,13 +823,11 @@ const REKAP_DATA=[
 function renderRekap(){
   const bars=document.getElementById('rekap-bars');const tbody=document.getElementById('rekap-table-body');
   if(!bars||!tbody)return;
-  // Load scores from localStorage
   const scores=JSON.parse(localStorage.getItem('ec_kuis_scores')||'{}');
   bars.innerHTML=REKAP_DATA.map(r=>{const sc=scores[r.nama]||0;return`<div class="rekap-bar-item"><div class="rekap-bar-header"><span class="rekap-bar-name">${r.nama}</span><span class="rekap-bar-score">${sc||'—'}</span></div><div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:${sc}%;background:${r.warna}"></div></div></div>`;}).join('');
   tbody.innerHTML=REKAP_DATA.map(r=>{const sc=scores[r.nama]||0;return`<tr><td>${r.nama}</td><td style="font-family:var(--mono);font-size:12px">${sc||'—'}</td><td style="color:var(--text3)">—</td><td style="color:var(--text3)">—</td></tr>`;}).join('');
 }
 
-// ── LEADERBOARD ──
 function getLeaderboardData(){
   const lb=JSON.parse(localStorage.getItem('ec_leaderboard')||'[]');
   return lb.sort((a,b)=>b.score-a.score).slice(0,10);
@@ -870,7 +847,6 @@ function renderDashLeaderboard(){
   el.innerHTML=lb.map((e,i)=>`<div class="lb-item"><div class="lb-rank ${ranks[i]||''}">${i+1}</div><div class="lb-avatar" style="background:linear-gradient(135deg,var(--accent),var(--cyan))">${e.nama.split(' ').map(w=>w[0]).slice(0,2).join('')}</div><div class="lb-name">${e.nama}</div><div class="lb-score">${e.score}</div></div>`).join('');
 }
 
-// ── DASHBOARD STATS ──
 function updateDashStats(){
   const total=tasks.length,done=tasks.filter(t=>t.done).length;
   const s=document.getElementById('stat-tugas');if(s)s.textContent=total;
@@ -882,32 +858,27 @@ function updateDashStats(){
   renderDashLeaderboard();
 }
 
-// ── KUIS IFRAME ENGINE ──
-// ⬇️ PASTE URL Apps Script Web App di sini setelah deploy ⬇️
 const KUIS_URLS = {
   perilaku    : "", // belum deploy
-  investasi   : "",
+  investasi   : "https://script.google.com/macros/s/AKfycbxEsOWwbWSw4icP_1uy1QAEmb2-NPClolG2aL7voZ_2GKnAQPvyBFEReuva2ySZoxJOCA/exec",
   pkn         : "",
-  kepemimpinan: "",
-  pelayanan   : "",
+  kepemimpinan: "https://script.google.com/macros/s/AKfycbxUBSk9KrJBmKxIP7JYyTo4LyJkR0ASMLEkMc2m0eTamY0cFootry1X6MnCegWXrykXLA/exec",
+  pelayanan   : "https://script.google.com/macros/s/AKfycbw5Lk60aW30PoyBuV8cIkCvJxTop-ukP_NE8hVvferu64sklnjRvaSWPgx3Z50RaXtWnw/exec",
   english     : "https://script.google.com/macros/s/AKfycbzWibRkngtcO6qoE2uKdX7vrt6OsKUgs4NT7LRU-ciTxxQLT71xY1XcP5dYYLwdQPuVBQ/exec",
   simulasi    : "",
   appkom      : "https://script.google.com/macros/s/AKfycbwxz72HGaFoABOdAO-OjOrOfnTZLUxmV16TTAJ7ThSUvuDAGCbZlTfMgQ0Sz_60qkyV/exec",
   kebijakan   : "https://script.google.com/macros/s/AKfycbzYcKyX8nCgN827RZtHqCg8TfHuLRPNulYBda3A9YitvvrKr-eC5g1aipt4bVIKQOfp/exec",
-  sim         : ""
+  sim         : "",
+  pancasila   : "https://script.google.com/macros/s/AKfycbyigGIKt3RzxhY6WKT8BTunl-F6w5UYgOvRk3DduFC2UgQfffP7s2wDXy2KYp_zzcxqUw/exec" // ← paste URL kuis Pancasila di sini setelah deploy
 };
 
 function startKuis(key){
-  // Tampilkan page kuis
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-kuis').classList.add('active');
-  // Tampilkan iframe view, sembunyikan select view
   document.getElementById('kuis-select-view').style.display='none';
   document.getElementById('kuis-iframe-view').style.display='block';
-  // Set judul
   const name=MATKUL_NAMES[key]||key;
   document.getElementById('kuis-iframe-title').textContent='Kuis — '+name;
-  // Cek URL
   const url=KUIS_URLS[key]||'';
   const noUrlEl=document.getElementById('kuis-no-url');
   const wrapEl=document.getElementById('kuis-iframe-wrap');
@@ -924,12 +895,10 @@ function startKuis(key){
 function backToKuisSelect(){
   document.getElementById('kuis-select-view').style.display='block';
   document.getElementById('kuis-iframe-view').style.display='none';
-  // Reset iframe src supaya tidak loading di background
   const iframe=document.getElementById('kuis-iframe');
   if(iframe)iframe.src='';
 }
 
-// ── INIT ──
 renderJadwal(6);updateDashStats();renderSerts();renderTasks();renderDashLeaderboard();
 </script>
 </body>
